@@ -7,6 +7,7 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 // import routes
 import authRouter from "./routes/auth.js"
+import projectRouter from "./routes/project.js"
 
 
 const app = express()
@@ -25,6 +26,7 @@ connectDB()
 
 // configure routes
 app.use('/api/auth' , authRouter)
+app.use('/api/project' , projectRouter)
 
 app.listen(PORT , ()=>{
     console.log(`app is running on http://localhost:${PORT}`)
