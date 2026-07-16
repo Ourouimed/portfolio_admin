@@ -5,10 +5,10 @@ import { Button } from "./ui/Button"
 import { useAppDispatch } from "../app/hooks"
 import { logout } from "../app/features/auth/authThunks"
 import { useAuth } from "../hooks/useAuth"
-import { Loader2 } from "lucide-react"
+import { Loader2, X } from "lucide-react"
 import { useToast } from "../hooks/useToast"
 
-const SideBar = () => {
+const SideBar = ({isOpen , onClose} : any) => {
     const { pathname } = useLocation()
     const dispatch = useAppDispatch()
     const { isLoading } = useAuth()
@@ -26,19 +26,24 @@ const SideBar = () => {
     }
 
     return (
-        <aside className="w-64 min-h-screen bg-slate-900 text-slate-300 border-r border-slate-800 flex flex-col">
-            <div className="h-16 flex items-center px-6 border-b border-slate-800">
-                <h3 className="text-lg font-medium tracking-wide text-white">
+        <aside className={`${isOpen ? "w-80" : "w-0"} z-10 fixed max-w-[90%] md:static trantition duration-300 overflow-hidden min-h-screen bg-gray-100 border-r border-gray-300 flex flex-col`}>
+            <header className="p-4 border-b border-gray-300 flex items-center gap-2 justify-between">
+                <h3 className="text-lg font-medium tracking-wide">
                     ourouimed<span className="font-bold text-indigo-400">Admin</span> 
                 </h3>
-            </div>
+
+                <button 
+                    onClick={onClose}
+                    className="md:hidden p-2 aspect-square flex justify-center items-center border border-gray-300 rounded-md cursor-pointer">
+                    <X size={16}/>
+                </button>
+            </header>
 
             {/* Navigation Links */}
-            <div className="flex justify-between h-full flex-col  p-4 ">
+            <div className="flex justify-between h-full flex-col p-4 ">
                 <nav className="flex-1 space-y-1 overflow-y-auto">
                     <ul>
                         {routes.map(({ name, url, icon: Icon }: MenuItem) => {
-                            // Check if the current route matches the link destination
                             const isActive = pathname === url
 
                             return (
@@ -49,13 +54,13 @@ const SideBar = () => {
                                             flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200
                                             ${isActive 
                                                 ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/10" 
-                                                : "hover:bg-slate-800 hover:text-slate-100 text-slate-400"
+                                                : "hover:bg-slate-800 hover:text-white"
                                             }
                                         `}
                                     >
                                         <Icon 
                                             size={20} 
-                                            className={`transition-colors ${isActive ? "text-white" : "text-slate-400 group-hover:text-slate-100"}`} 
+                                            className={`transition-colors ${isActive ? "text-white" : "group-hover:text-white"}`} 
                                         />
                                         <span>{name}</span>
                                     </Link>

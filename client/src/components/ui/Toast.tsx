@@ -46,7 +46,7 @@ export const Toast = ({ id , message = "", type = "info" } : ToastItem)=>{
     <div
       role="status"
       aria-live="polite"
-      className={`bg-background flex items-center justify-between p-4 shadow-xl rounded-md border-l-4
+      className={`bg-white flex items-center justify-between p-4 shadow-xl rounded-md border-l-4
         transform transition-all duration-300 ease-out
         ${TYPES[t] || TYPES.INFO}
         ${mounted && !closing ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"}

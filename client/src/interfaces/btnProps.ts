@@ -1,6 +1,23 @@
-import type { ButtonHTMLAttributes } from "react";
+import type {
+  ButtonHTMLAttributes,
+  AnchorHTMLAttributes,
+} from "react";
 
-export interface BtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    fullWidth? : boolean ,
-    variant? : string
+interface BaseBtnProps {
+  fullWidth?: boolean;
+  variant?: string;
+  size?: string;
+  btnStyle?: string;
 }
+
+type ButtonProps = BaseBtnProps &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    href?: never;
+  };
+
+type AnchorProps = BaseBtnProps &
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string;
+  };
+
+export type BtnProps = ButtonProps | AnchorProps;
