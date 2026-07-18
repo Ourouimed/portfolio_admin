@@ -28,7 +28,7 @@ const Projetcs = () => {
     
   } , [dispatch]) 
   //handleers
-  const handleOpenAddProjectPopup = (p : ProjectProps)=>{
+  const handleOpenPreviewProject = (p : ProjectProps)=>{
     setPreviewPopupIsOpen(true)
     setPopupProject(p)
   }
@@ -73,10 +73,11 @@ const Projetcs = () => {
       </Popup>
       
 
-      <div className="grid grid-cols md:grid-cols-3 gap-2 mt-4">
+      <div className="grid grid-cols sm:grid-cols-2 md:grid-cols-3 gap-2 mt-4">
         {isLoading ? Array.from({length : 6}).map((_ , i)=><ProjectSkeleton key={i}/>) : 
+        projects.length === 0 ? <p>No projects yet</p> :
         projects.map((p : ProjectProps) => <ProjectCard project={p} key={p._id} 
-          openPopup={()=> handleOpenAddProjectPopup(p)} 
+          onPreview={()=>handleOpenPreviewProject(p)}
           onUpdate={()=> handleOpenEditProjectPopup(p)} 
           onDelete={()=> handleOpenDeleteProjectPopup(p)}/>)}
       </div>

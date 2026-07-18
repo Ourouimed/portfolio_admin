@@ -35,7 +35,7 @@ interface FormErrors {
 
 
 
-export const EditProjectPopup = ({closePopup , project } : ProjectCardProps) => {
+export const EditProjectPopup = ({closePopup , project } : any) => {
     const [projectInfo, setProjectInfo] = useState<ProjectInfo>({
         image: null,
         imageUrl: project?.image || "",

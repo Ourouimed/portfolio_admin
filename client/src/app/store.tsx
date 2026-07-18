@@ -3,12 +3,15 @@ import authReducer from "./features/auth/authSlice"
 import toastReducer  from "./features/toast/toastSlice"
 import projectReducer  from "./features/project/projectSlice"
 
+import journeyReducer  from "./features/journey/journeySlice"
+
 export const store = configureStore({
     
     reducer : {
         auth : authReducer ,
         toast : toastReducer ,
-        project : projectReducer
+        project : projectReducer ,
+        journey : journeyReducer
     }
 })
 

@@ -5,13 +5,13 @@ import { formatDate } from "../../lib/date-formaters";
 
 
 
-export const ProjectCard = ({ project, openPopup, onUpdate, onDelete }: ProjectCardProps) => {
+export const ProjectCard = ({ project, onPreview, onUpdate, onDelete }: ProjectCardProps) => {
   return (
-    <div className="bg-white shadow-md p-4 border border-gray-300 space-y-3 rounded-lg flex flex-col justify-between h-full">
+    <div className="group bg-white shadow-md p-4 border border-gray-300 space-y-3 rounded-lg flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue-500">
       <div className="space-y-2">
         {/* Image / Thumbnail */}
         {project?.image ? (
-          <div className="w-full h-44 rounded-md overflow-hidden cursor-pointer" onClick={openPopup}>
+          <div className="w-full h-44 rounded-md overflow-hidden cursor-pointer" onClick={onPreview}>
             <img 
               src={project.image} 
               alt={project.name} 
@@ -23,7 +23,7 @@ export const ProjectCard = ({ project, openPopup, onUpdate, onDelete }: ProjectC
         )}
 
         {/* Title placeholder */}
-        <h3 className="font-bold text-xl text-gray-800">
+        <h3 className="cursor-pointer text-lg font-bold text-gray-900 transition-colors group-hover:text-blue-600">
           {project?.name}
         </h3>
 
@@ -51,7 +51,7 @@ export const ProjectCard = ({ project, openPopup, onUpdate, onDelete }: ProjectC
               Code
             </Button>
           )}
-          <Button fullWidth className="!bg-blue-500" onClick={openPopup}> 
+          <Button fullWidth className="!bg-blue-500" onClick={onPreview}> 
             <Eye size={14}/>
             Preview
           </Button>

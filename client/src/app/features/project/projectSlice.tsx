@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { ProjectState } from "./projectTypes";
-import { addProject, deleteProject, editProject, getAllProjects } from "./projectThunks";
+import {
+  addProject,
+  deleteProject,
+  editProject,
+  getAllProjects,
+} from "./projectThunks";
 
 const initialState: ProjectState = {
   isLoading: false,
@@ -18,13 +23,12 @@ const projectSlice = createSlice({
       })
       .addCase(addProject.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload)
-        state.projects.push(action.payload.project)
+        console.log(action.payload);
+        state.projects.push(action.payload.project);
       })
       .addCase(addProject.rejected, (state) => {
         state.isLoading = false;
       })
-
 
       // get All projects
       .addCase(getAllProjects.pending, (state) => {
@@ -32,14 +36,12 @@ const projectSlice = createSlice({
       })
       .addCase(getAllProjects.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log(action.payload)
-        state.projects = action.payload.projects
+        console.log(action.payload);
+        state.projects = action.payload.projects;
       })
       .addCase(getAllProjects.rejected, (state) => {
         state.isLoading = false;
       })
-
-
 
       // delete project
       .addCase(deleteProject.pending, (state) => {
@@ -47,28 +49,25 @@ const projectSlice = createSlice({
       })
       .addCase(deleteProject.fulfilled, (state, action) => {
         state.isLoading = false;
-        const id = action.meta.arg
-        
-        state.projects = state.projects.filter((p)=> p._id !== id)
+        const id = action.meta.arg;
+
+        state.projects = state.projects.filter((p) => p._id !== id);
       })
       .addCase(deleteProject.rejected, (state) => {
         state.isLoading = false;
       })
 
-
-
-      // updated project
+      // update project
       .addCase(editProject.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(editProject.fulfilled, (state, action) => {
         state.isLoading = false;
-        const { _id } = action.meta.arg
-        const projectIndex= state.projects.findIndex(p => p._id === _id)
+        const { _id } = action.meta.arg;
+        const projectIndex = state.projects.findIndex((p) => p._id === _id);
 
-        if (projectIndex != -1) state.projects[projectIndex] = action.payload.project
-        
-        
+        if (projectIndex != -1)
+          state.projects[projectIndex] = action.payload.project;
       })
       .addCase(editProject.rejected, (state) => {
         state.isLoading = false;

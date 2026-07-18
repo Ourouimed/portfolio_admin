@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { useToast } from "../../hooks/useToast";
 import { addProject } from "../../app/features/project/projectThunks";
 import { useProject } from "../../hooks/useProject";
+import type { ProjectCardProps } from "../../interfaces/projectProps";
 
 
 interface ProjectInfo {
@@ -110,8 +111,6 @@ export const AddProjectPopup = ({closePopup} : any) => {
 
         if (projectInfo.source && !isValidUrl(projectInfo.source)) tempErrors.source = "Unvalid url"
         if (projectInfo.preview && !isValidUrl(projectInfo.preview)) tempErrors.preview = "Unvalid url"
-
-        console.log(tempErrors)
         
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
