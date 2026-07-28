@@ -17,6 +17,7 @@ interface FormErrors {
   end_date?: string;
   type?: string;
   location?: string;
+  org_link?: string;
   description?: string;
 }
 export const AddJourneyPopup = ({ closePopup }: any) => {
@@ -25,6 +26,7 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
     org: "",
     start_date: "",
     end_date: "",
+    org_link: "",
     type: "work",
     location: "",
     description: "",
@@ -36,6 +38,17 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
 
   const { isLoading } = useJourney();
 
+  const isValidUrl = (url: string): boolean => {
+    try {
+      const u = new URL(url);
+      console.log(u);
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  };
+
   const validate = (): boolean => {
     const tempErrors: FormErrors = {};
     if (!journeyInfo.title.trim())
@@ -45,6 +58,9 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
       tempErrors.start_date = "Journey start date is required";
     if (!journeyInfo.end_date.trim())
       tempErrors.end_date = "Journey end date is required";
+
+    if (journeyInfo.org_link && !isValidUrl(journeyInfo.org_link))
+      tempErrors.org_link = "Unvalid url";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -106,6 +122,23 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
       </div>
 
       <div className="space-y-2">
+        <label htmlFor="org_link" className="block font-semibold text-sm">
+          Organization link
+        </label>
+        <Input
+          type="text"
+          id="org_link"
+          placeholder="https://meta.com"
+          onChange={handleChange}
+          value={journeyInfo.org_link}
+          className={errors.org_link ? "border-red-500 focus:ring-red-500" : ""}
+        />
+        {errors.org_link && (
+          <p className="text-red-500 text-[10px]">{errors.org_link}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
         <label htmlFor="type" className="block font-semibold text-sm">
           type <span className="text-red-500">*</span>
         </label>
@@ -120,7 +153,7 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
 
       <div className="space-y-2">
         <label htmlFor="start_date" className="block font-semibold text-sm">
-          Start Date
+          Start Date <span className="text-red-500">*</span>
         </label>
         <Input
           type="text"
@@ -139,7 +172,7 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
 
       <div className="space-y-2">
         <label htmlFor="end_date" className="block font-semibold text-sm">
-          End Date
+          End Date <span className="text-red-500">*</span>
         </label>
         <Input
           type="text"

@@ -17,7 +17,7 @@ export const getJourney = async (req, res) => {
 
 export const addJourney = async (req, res) => {
   try {
-    const { title, org, start_date, end_date, type, location, description } =
+    const { title, org, start_date, end_date, type, location, description , org_link} =
       req.body;
 
     if (!title || !start_date || !end_date || !type)
@@ -25,7 +25,7 @@ export const addJourney = async (req, res) => {
         error: "Missing some required fields",
       });
 
-    const journey = await Journey.create({title , start_date , end_date , type ,  ...(location && { location }) ,  ...(description && { description }) , ...(org && { org })})
+    const journey = await Journey.create({title , start_date , end_date , type ,  ...(location && { location }) ,  ...(description && { description }) , ...(org && { org }) , ...(org_link && { org_link })})
     console.log(journey) 
 
     return res.json({ journey : journeyFormater(journey)})
@@ -56,10 +56,7 @@ export const editJourney = async (req , res)=>{
     try {
         const { id } = req.params 
 
-        const { title, org, start_date, end_date, type, location, description } = req.body
-
-        
-        
+        const { title, org, start_date, end_date, type, location, description , org_link } = req.body
 
         const journey = await Journey.findByIdAndUpdate(id , {
             $set : {
@@ -70,6 +67,7 @@ export const editJourney = async (req , res)=>{
                 ...(end_date && { end_date }),
                 ...(type && { type }),
                 ...(location && { location }),
+                ...(org_link && { org_link }),
             }
         } , { new : true})
 

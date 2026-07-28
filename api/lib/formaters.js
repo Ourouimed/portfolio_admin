@@ -31,6 +31,7 @@ export const journeyFormater = (j) => {
     type: j?.type || "education",
     _id: j?._id,
     org: j?.org || "",
+    org_link: j?.org_link || "",
     description: j?.description || "",
     createdAt: j?.createdAt || new Date(),
     updatedAt: j?.updatedAt || new Date(),

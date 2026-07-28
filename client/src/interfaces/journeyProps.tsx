@@ -4,6 +4,7 @@ export interface JourneyProps {
     org: string ,
     start_date : string ,
     end_date : string ,
+    org_link : string ,
     type : "work" | "education" ,
     location:string ,
     description : string 

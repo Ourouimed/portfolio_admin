@@ -7,7 +7,8 @@ const journeySchema = Schema({
     end_date : {type : String , required : true} ,
     type : {type : String , required : true , enum : ['work' , 'education'] , default : 'education'} ,
     location:String ,
-    description : String
+    description : String ,
+    org_link : String 
 } , {timestamps : true})
 
 

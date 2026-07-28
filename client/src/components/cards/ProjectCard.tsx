@@ -3,8 +3,6 @@ import type { ProjectCardProps } from "../../interfaces/projectProps";
 import { Button } from "../ui/Button";
 import { formatDate } from "../../lib/date-formaters";
 
-
-
 export const ProjectCard = ({ project, onPreview, onUpdate, onDelete }: ProjectCardProps) => {
   return (
     <div className="group bg-white shadow-md p-4 border border-gray-300 space-y-3 rounded-lg flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue-500">

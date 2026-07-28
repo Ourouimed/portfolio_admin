@@ -7,7 +7,6 @@ import { useAppDispatch } from "../../app/hooks";
 import { useToast } from "../../hooks/useToast";
 import { addProject } from "../../app/features/project/projectThunks";
 import { useProject } from "../../hooks/useProject";
-import type { ProjectCardProps } from "../../interfaces/projectProps";
 
 
 interface ProjectInfo {
