@@ -6,7 +6,6 @@ import { TextArea } from "../ui/Textarea";
 import { useAppDispatch } from "../../app/hooks";
 import { useToast } from "../../hooks/useToast";
 import { useProject } from "../../hooks/useProject";
-import type { ProjectCardProps } from "../../interfaces/projectProps";
 import { editProject } from "../../app/features/project/projectThunks";
 import { isValidUrl } from "../../lib/validators";
 
