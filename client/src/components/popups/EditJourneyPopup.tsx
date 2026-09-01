@@ -7,8 +7,9 @@ import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
 import { Button } from "../ui/Button";
 import { Loader2 } from "lucide-react";
-import {editJourney } from "../../app/features/journey/journeyThunks";
+import { editJourney } from "../../app/features/journey/journeyThunks";
 import { TextArea } from "../ui/Textarea";
+import { isValidUrl } from "../../lib/validators";
 
 interface FormErrors {
   title?: string;
@@ -17,6 +18,7 @@ interface FormErrors {
   end_date?: string;
   type?: string;
   location?: string;
+  org_link?: string;
   description?: string;
 }
 export const EditJourneyPopup = ({ closePopup, journey }: any) => {
@@ -27,6 +29,7 @@ export const EditJourneyPopup = ({ closePopup, journey }: any) => {
     end_date: journey?.end_date || "",
     type: journey?.type || "work",
     location: journey?.location || "",
+    org_link: journey?.org_link || "",
     description: journey?.description || "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -46,7 +49,10 @@ export const EditJourneyPopup = ({ closePopup, journey }: any) => {
     // if (!journeyInfo.end_date.trim())
     //   tempErrors.end_date = "Journey end date is required";
 
-    // setErrors(tempErrors);
+    if (journeyInfo.org_link && !isValidUrl(journeyInfo.org_link))
+      tempErrors.org_link = "Unvalid url";
+
+    setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
   const handleChange = (
@@ -62,7 +68,9 @@ export const EditJourneyPopup = ({ closePopup, journey }: any) => {
   const handleEditJourney = async () => {
     if (validate()) {
       try {
-        await dispatch(editJourney({ data : journeyInfo , _id : journey?._id})).unwrap();
+        await dispatch(
+          editJourney({ data: journeyInfo, _id: journey?._id }),
+        ).unwrap();
         toast.success("Journey updated successfully");
         closePopup();
       } catch (err: any) {
@@ -103,6 +111,23 @@ export const EditJourneyPopup = ({ closePopup, journey }: any) => {
           className={errors.org ? "border-red-500 focus:ring-red-500" : ""}
         />
         {errors.org && <p className="text-red-500 text-[10px]">{errors.org}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="org_link" className="block font-semibold text-sm">
+          Organization link
+        </label>
+        <Input
+          type="text"
+          id="org_link"
+          placeholder="https://meta.com"
+          onChange={handleChange}
+          value={journeyInfo.org_link}
+          className={errors.org_link ? "border-red-500 focus:ring-red-500" : ""}
+        />
+        {errors.org_link && (
+          <p className="text-red-500 text-[10px]">{errors.org_link}</p>
+        )}
       </div>
 
       <div className="space-y-2">

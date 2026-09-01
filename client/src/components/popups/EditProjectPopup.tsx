@@ -8,6 +8,7 @@ import { useToast } from "../../hooks/useToast";
 import { useProject } from "../../hooks/useProject";
 import type { ProjectCardProps } from "../../interfaces/projectProps";
 import { editProject } from "../../app/features/project/projectThunks";
+import { isValidUrl } from "../../lib/validators";
 
 
 
@@ -95,15 +96,7 @@ export const EditProjectPopup = ({closePopup , project } : any) => {
         }));
     };
 
-    const isValidUrl = (url: string): boolean =>{
-        try {
-            new URL(url);
-            return true;
-        } catch(err) {
-            console.log(err)
-            return false;
-        }
-    }
+    
 
     const validate = (): boolean => {
         const tempErrors: FormErrors = {};

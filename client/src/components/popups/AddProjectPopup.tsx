@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { useToast } from "../../hooks/useToast";
 import { addProject } from "../../app/features/project/projectThunks";
 import { useProject } from "../../hooks/useProject";
+import { isValidUrl } from "../../lib/validators";
 
 
 interface ProjectInfo {
@@ -89,17 +90,6 @@ export const AddProjectPopup = ({closePopup} : any) => {
             tech: prev.tech.filter((_, index) => index !== indexToRemove)
         }));
     };
-
-    const isValidUrl = (url: string): boolean =>{
-        try {
-            const u = new URL(url);
-            console.log(u)
-            return true;
-        } catch(err) {
-            console.log(err)
-            return false;
-        }
-    }
 
     const validate = (): boolean => {
         const tempErrors: FormErrors = {};
