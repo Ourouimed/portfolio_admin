@@ -40,7 +40,7 @@ const taskSlice = createSlice({
         }
         
       })
-      .addCase(changeTaskStatus.rejected, (state) => {
+      .addCase(changeTaskStatus.rejected, () => {
         // state.isLoading = false;
       })
 
