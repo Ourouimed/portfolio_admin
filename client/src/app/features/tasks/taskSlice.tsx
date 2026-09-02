@@ -28,7 +28,7 @@ const taskSlice = createSlice({
 
 
       // change status
-      .addCase(changeTaskStatus.pending, (state) => {
+      .addCase(changeTaskStatus.pending, () => {
         // state.isLoading = true;
       })
       .addCase(changeTaskStatus.fulfilled, (state, action) => {
