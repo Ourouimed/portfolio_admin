@@ -26,7 +26,7 @@ const SideBar = ({isOpen , onClose} : any) => {
     }
 
     return (
-        <aside className={`${isOpen ? "w-80" : "w-0"} z-10 fixed max-w-[90%] md:static trantition duration-300 overflow-hidden min-h-screen bg-gray-100 border-r border-gray-300 flex flex-col`}>
+        <aside className={`${isOpen ? "w-80" : "w-0"} z-10 fixed max-w-[90%] md:sticky h-screen top-0 trantition duration-300 overflow-hidden min-h-screen bg-gray-100 border-r border-gray-300 flex flex-col`}>
             <header className="p-4 border-b border-gray-300 flex items-center gap-2 justify-between">
                 <h3 className="text-lg font-medium tracking-wide">
                     ourouimed<span className="font-bold text-indigo-400">Admin</span> 

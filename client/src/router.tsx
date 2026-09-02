@@ -5,6 +5,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import ErrorPage from "./pages/ErrorPage";
 import Projetcs from "./pages/Projects";
 import MyJourney from "./pages/MyJourney";
+import TodoList from "./pages/TodoList";
 
 export const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
             {
                 path : "journey" ,
                 element : <MyJourney/>
+            },
+            {
+                path : "tasks" ,
+                element : <TodoList/>
             }
 
         ]

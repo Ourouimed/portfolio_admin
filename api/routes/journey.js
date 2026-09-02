@@ -1,7 +1,6 @@
 import { Router } from "express"
 import verifyJWT from "../middlewares/verifyJWT.js"
 import { addJourney, deleteJourney, editJourney, getJourney } from "../controllers/journeyController.js"
-import { editProject } from "../controllers/projectController.js"
 const router = Router()
 
 router.get("/" , verifyJWT , getJourney)

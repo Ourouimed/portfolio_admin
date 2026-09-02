@@ -10,5 +10,4 @@ export interface Project {
 export interface ProjectState {
     isLoading : boolean ,
     projects : Project[],
-
 }

@@ -37,3 +37,16 @@ export const journeyFormater = (j) => {
     updatedAt: j?.updatedAt || new Date(),
   };
 };
+
+
+export const taskFormater = (t)=>{
+  return {
+    _id : t?.id ,
+    title : t?.title || "",
+    content : t?.content || "",
+    status : t?.status || "",
+    date : t?.date || new Date(),
+    createdAt: t?.createdAt || new Date(),
+    updatedAt: t?.updatedAt || new Date(),
+  }
+}

@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser"
 import authRouter from "./routes/auth.js"
 import projectRouter from "./routes/project.js"
 import journeyRouter from "./routes/journey.js"
+import taskRouter from "./routes/task.js"
 
 
 const app = express()
@@ -29,6 +30,7 @@ connectDB()
 app.use('/api/auth' , authRouter)
 app.use('/api/project' , projectRouter)
 app.use('/api/journey' , journeyRouter)
+app.use('/api/task' , taskRouter)
 
 app.listen(PORT , ()=>{
     console.log(`app is running on http://localhost:${PORT}`)
