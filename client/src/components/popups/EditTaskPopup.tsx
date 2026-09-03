@@ -4,7 +4,7 @@ import { TextArea } from "../ui/Textarea";
 import { Button } from "../ui/Button";
 import { Loader2 } from "lucide-react";
 import { useTask } from "../../hooks/useTask";
-import { addTask } from "../../app/features/tasks/taskThunks";
+import { addTask, editTask } from "../../app/features/tasks/taskThunks";
 import { useToast } from "../../hooks/useToast";
 import { useAppDispatch } from "../../app/hooks";
 
@@ -19,13 +19,15 @@ interface FormErrors {
   content?: string;
   date?: string;
 }
-export const AddTaskPopup = ({ closePopup }: any) => {
+export const EditTaskPopup = ({ closePopup , task}: any) => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [taskInfo, setTaskInfo] = useState<TaskInfo>({
-    title: "",
-    content: "",
-    date: "",
+    title: task?.title || "",
+    content: task?.content || "",
+    date: new Date(task?.date).toISOString().slice(0, 16) || "",
   });
+
+
 
   const dispatch = useAppDispatch();
   const toast = useToast();
@@ -36,6 +38,7 @@ export const AddTaskPopup = ({ closePopup }: any) => {
   ) => {
     const { id, value } = e.target;
     setTaskInfo((prev) => ({ ...prev, [id]: value }));
+    console.log(taskInfo)
   };
 
   const validate = (): boolean => {
@@ -60,14 +63,14 @@ export const AddTaskPopup = ({ closePopup }: any) => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleAddTask = async () => {
+  const handleEditTask = async () => {
     if (validate()) {
       try {
-        await dispatch(addTask(taskInfo)).unwrap();
-        toast.success("Task added successfully");
+        await dispatch(editTask({ data : taskInfo , _id : task._id})).unwrap();
+        toast.success("Task updated successfully");
         closePopup();
       } catch (err: any) {
-        toast.error(err || "Failed to add task");
+        toast.error(err || "Failed to update task");
       }
     }
   };
@@ -122,10 +125,10 @@ export const AddTaskPopup = ({ closePopup }: any) => {
       <Button
         fullWidth
         disabled={isLoading}
-        onClick={handleAddTask}
+        onClick={handleEditTask}
         className="bg-blue-500"
       >
-        {isLoading ? <Loader2 className="animate-spin" /> : "Add Task"}
+        {isLoading ? <Loader2 className="animate-spin" /> : "Edit Task"}
       </Button>
     </div>
   );

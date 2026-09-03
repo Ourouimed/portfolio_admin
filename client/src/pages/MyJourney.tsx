@@ -92,7 +92,7 @@ const MyJourney = () => {
 
       <div className="grid grid-cols md:grid-cols-2 gap-2 mt-4">
               {isLoading ? Array.from({length : 6}).map((_ , i)=><JourneySkeleton key={i}/>) : 
-              journeys.length === 0 ? <p>No projects yet</p> : journeys.map((j : JourneyProps)=> 
+              journeys.length === 0 ? <p>No Experience yet</p> : journeys.map((j : JourneyProps)=> 
               <JourneyCard journey={j} key={j?._id}
               onDelete={()=> handleOpenDeleteJourneyPopup(j)} 
               onUpdate={()=> handleOpenEditJourneyPopup(j)}

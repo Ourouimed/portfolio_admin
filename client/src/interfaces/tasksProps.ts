@@ -10,5 +10,9 @@ export interface TaskProps {
 
 
 export interface TaskCardProps {
-    task : TaskProps | null ,
+    task : TaskProps | null 
+    openPopup? : VoidFunction 
+    closePopup? : VoidFunction 
+    onUpdate?: (id: string | number) => void;
+    onDelete?: (id: string | number) => void;
 }

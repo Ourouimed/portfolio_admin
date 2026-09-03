@@ -1,11 +1,11 @@
-import { Calendar, Check, Edit, Trash } from "lucide-react";
+import { Calendar, Check, Edit, Trash2 } from "lucide-react";
 import type { TaskCardProps } from "../../interfaces/tasksProps";
 import { formatDate } from "../../lib/date-formaters";
 import { useAppDispatch } from "../../app/hooks";
 import { useToast } from "../../hooks/useToast";
 import { changeTaskStatus } from "../../app/features/tasks/taskThunks";
 
-export const TaskCard = ({ task }: TaskCardProps) => {
+export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
   const isCompleted = task?.status === "completed";
 
   const dispatch = useAppDispatch();
@@ -26,11 +26,18 @@ export const TaskCard = ({ task }: TaskCardProps) => {
         <div className="flex items-center justify-between capitalize">
           <div className="flex items-center gap-2">
             <div className="size-5 p-0.5 rounded-full border border-gray-300">
-                {isCompleted && <div className="bg-green-500 w-full rounded-full flex items-center justify-center h-full">
-                    <Check size={12} className="text-white"/>
-                </div>}
+              {isCompleted && (
+                <div className="bg-green-500 w-full rounded-full flex items-center justify-center h-full">
+                  <Check size={12} className="text-white" />
+                </div>
+              )}
             </div>
-            <h4 onClick={handleChangeStatus} className={`font-semibold text-sm cursor-pointer ${isCompleted ? "text-gray-500 line-through" : ""}`}>{task?.title}</h4>
+            <h4
+              onClick={handleChangeStatus}
+              className={`font-semibold text-sm cursor-pointer ${isCompleted ? "text-gray-500 line-through" : ""}`}
+            >
+              {task?.title}
+            </h4>
           </div>
 
           <span
@@ -53,14 +60,27 @@ export const TaskCard = ({ task }: TaskCardProps) => {
             <span className="text-yellow-500">{formatDate(task?.date)}</span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button className="text-gray-500 text-xs cursor-pointer hover:text-black transition duration-300">
-              <Edit size={14} />
-            </button>
-            <button className="text-gray-500 text-xs cursor-pointer hover:text-red-500 transition duration-300">
-              <Trash size={14} />
-            </button>
-          </div>
+          {(onUpdate || onDelete) && (
+            <div className="flex items-center gap-2">
+              {onUpdate && (
+                <button
+                  onClick={()=> task?._id && onUpdate(task?._id)}
+                  className="text-gray-500 text-xs cursor-pointer hover:text-black transition duration-300"
+                >
+                  <Edit size={14} />
+                </button>
+              )}
+
+              {onDelete && (
+                <button
+                  onClick={()=> task?._id && onDelete(task?._id)}
+                  className="text-gray-500 text-xs cursor-pointer hover:text-red-500 transition duration-300"
+                >
+                  <Trash2 size={14} />
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

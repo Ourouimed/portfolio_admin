@@ -16,4 +16,15 @@ const getTasks = async ()=>{
     return respone.data
 }
 
-export default { addTask , getTasks , changeStatus}
+const deleteTask = async (id : string)=>{
+    const respone = await axiosService.delete(`/api/task/${id}`);
+    return respone.data
+}
+
+
+const editTask = async (data : Task , _id : string) => {
+    const respone = await axiosService.put(`/api/task/${_id}` , data)
+    return respone.data
+}
+
+export default { addTask , getTasks , changeStatus , deleteTask , editTask}

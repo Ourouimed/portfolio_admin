@@ -29,3 +29,24 @@ export const getTasks = createAsyncThunk('task/get' , async (_, thunkAPI)=>{
     return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
   }
 })
+
+
+export const deleteTask = createAsyncThunk('task/delete' , async (id : string, thunkAPI)=>{
+  try {
+    return await taskService.deleteTask(id)
+  }
+  catch (err: any){
+    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+  }
+})
+
+
+
+export const editTask = createAsyncThunk('task/edit' , async (data : { data : Task , _id : string}, thunkAPI)=>{
+  try {
+    return await taskService.editTask(data.data , data._id)
+  }
+  catch (err: any){
+    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+  }
+})
