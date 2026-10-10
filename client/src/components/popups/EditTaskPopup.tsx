@@ -4,7 +4,7 @@ import { TextArea } from "../ui/Textarea";
 import { Button } from "../ui/Button";
 import { Loader2 } from "lucide-react";
 import { useTask } from "../../hooks/useTask";
-import { addTask, editTask } from "../../app/features/tasks/taskThunks";
+import { editTask } from "../../app/features/tasks/taskThunks";
 import { useToast } from "../../hooks/useToast";
 import { useAppDispatch } from "../../app/hooks";
 

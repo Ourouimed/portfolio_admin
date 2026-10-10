@@ -3,7 +3,6 @@ import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { Save, FileText, Upload, X, Loader2 } from "lucide-react";
 import { useToast } from "../hooks/useToast";
-import { useAppDispatch } from "../app/hooks";
 import { getProfile, saveProfile } from "../services/profileService";
 
 interface ProfileProps {
@@ -90,7 +89,6 @@ const ProfilePage = () => {
         }));
         return;
       }
-      const url = URL.createObjectURL(file);
       setProfileInfo((prev) => ({ ...prev, resume: file }));
       setErrors((prev) => ({ ...prev, resume: undefined }));
     }
