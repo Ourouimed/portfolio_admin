@@ -56,43 +56,32 @@ const uploadFile = async (file, folder_name) => {
 };
 
 
-
 const deleteFileByUrl = async (url) => {
-  if (!url) return null;
+  if (!url) return;
 
   const match = url.match(
-    /\/(image|raw|video)\/upload\/(?:v\d+\/)?(.+)$/
+    /\/(?:image|video|raw)\/upload\/(?:v\d+\/)?(.+)$/
   );
 
   if (!match) {
     throw new Error("Invalid Cloudinary URL");
   }
 
-  const resourceType = match[1];
-  const publicId = decodeURIComponent(match[2]);
+  const publicId = decodeURIComponent(match[1]);
+  console.log(publicId)
 
-  // const result = await cloudinary.uploader.destroy(publicId, {
-  //   resource_type: resourceType,
-  //   type: "upload",
-  //   invalidate: true,
-  // });
+  const resourceType = url.includes("/raw/upload/")
+    ? "raw"
+    : url.includes("/video/upload/")
+      ? "video"
+      : "image";
 
-  const result = await cloudinary.uploader.destroy(
-  "portfolio/projects/Group-1511-1.png",
-  {
-    resource_type: "image",
-    type: "upload",
-  }
-);
-
-console.log(result);
-
-  console.log({ publicId, resourceType, result });
+  const result = await cloudinary.uploader.destroy(publicId, {
+    resource_type: resourceType,
+    invalidate: true,
+  });
 
   return result;
 };
-
-
-
 
 export { uploadFile , deleteFileByUrl};
