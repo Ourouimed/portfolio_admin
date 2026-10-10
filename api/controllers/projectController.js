@@ -1,5 +1,5 @@
 import { projectFormater } from "../lib/formaters.js"
-import { uploadImage } from "../lib/upload-image.js"
+import { deleteFileByUrl, uploadFile } from "../lib/cloudinary-manage.js"
 import Project from "../models/Project.js"
 
 export const addProject = async (req , res)=>{
@@ -15,7 +15,7 @@ export const addProject = async (req , res)=>{
             error : "Project image is required"
         })
         
-        let img_url = await uploadImage(projImg , "portfolio/projects")
+        let img_url = await uploadFile(projImg , "portfolio/projects")
 
         const project = await Project.create({
             name , description , tech , image : img_url , ...(source && { source }) , ...(preview && { preview })
@@ -57,8 +57,11 @@ export const deleteProject = async (req , res)=>{
         if(!project){
             return res.status(404).json({error : "Project not found"})
         }
-        
-
+        console.log(project?.image)
+        if (project?.image){
+            await deleteFileByUrl(project.image)
+            
+        }
         await Project.findByIdAndDelete(id);
         return res.json({message : "Project deleted successfully"})
     }
@@ -80,7 +83,7 @@ export const editProject = async (req , res)=>{
 
         let img_url;
         if (projImg) {
-            img_url = await uploadImage(projImg , "portfolio/projects")
+            img_url = await uploadFile(projImg , "portfolio/projects")
         }
         
         

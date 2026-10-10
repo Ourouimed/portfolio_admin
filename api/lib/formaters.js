@@ -50,3 +50,16 @@ export const taskFormater = (t)=>{
     updatedAt: t?.updatedAt || new Date(),
   }
 }
+
+export const profileFormater = (p)=>{
+  return {
+    _id: p?._id, 
+    email : p?.email ,
+    github : p?.github , 
+    instagram : p?.instagram ,  
+    linkedin : p?.linkedin , 
+    location : p?.location , 
+    whatsapp : p?.whatsapp , 
+    resume : p?.resume , 
+  }
+}

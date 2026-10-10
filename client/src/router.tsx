@@ -6,6 +6,7 @@ import ErrorPage from "./pages/ErrorPage";
 import Projetcs from "./pages/Projects";
 import MyJourney from "./pages/MyJourney";
 import TodoList from "./pages/TodoList";
+import ProfilePage from "./pages/ProfilePage";
 
 export const router = createBrowserRouter([
     {
@@ -31,8 +32,11 @@ export const router = createBrowserRouter([
             {
                 path : "tasks" ,
                 element : <TodoList/>
+            },
+            {
+                path : "profile" ,
+                element : <ProfilePage/>
             }
-
         ]
     },
     {
