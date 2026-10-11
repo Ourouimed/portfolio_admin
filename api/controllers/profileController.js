@@ -83,6 +83,7 @@ export const saveProfile = async (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     const profile = await Profile.findOne()
+    console.log(profile)
 
     return res.json({
       profile : profileFormater(profile),

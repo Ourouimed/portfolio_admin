@@ -6,6 +6,7 @@ export const getJourney = async (req, res) => {
     const journeys = await Journey.find().sort({ createdAt: -1 });
 
     const formatedJoutrneys = journeys.map((p) => journeyFormater(p));
+    console.log(formatedJoutrneys)
     return res.json({
       journeys: formatedJoutrneys,
     });

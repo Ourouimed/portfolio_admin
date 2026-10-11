@@ -11,7 +11,6 @@ const allowedOrigins =
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests without origin (Postman, mobile apps)
-    console.log(process.env.ALLOW_CORS_URL.split(","))
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {

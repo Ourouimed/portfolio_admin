@@ -37,6 +37,7 @@ export const getAllProjects = async (req , res)=>{
         const projects = await Project.find().sort({ createdAt : -1});
 
         const formatedProjects = projects.map(p => projectFormater(p))
+        console.log(formatedProjects)
         return res.json({
             projects : formatedProjects
         })
