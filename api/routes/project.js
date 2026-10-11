@@ -11,7 +11,7 @@ const upload = multer({ storage });
 
 
 router.post('/'  , verifyJWT , upload.single("image") ,  addProject)
-router.get('/'  , verifyJWT ,  getAllProjects)
+router.get('/'  ,  getAllProjects)
 router.delete('/:id'  , verifyJWT ,  deleteProject)
 router.put('/:id'  , verifyJWT , upload.single("image") ,  editProject)
 

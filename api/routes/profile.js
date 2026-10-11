@@ -11,7 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage }); 
 
 router.put('/' , verifyJWT , upload.single("resume") , saveProfile)
-router.get('/' , verifyJWT , getProfile)
+router.get('/'  , getProfile)
 
 
 export default router
