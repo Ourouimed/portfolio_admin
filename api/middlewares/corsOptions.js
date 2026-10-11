@@ -1,9 +1,12 @@
+import { config } from "dotenv";
+
+config()
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? process.env.ALLOW_CORS_URL.split(",")
     : [
-        "http://localhost:5173", "http://localhost:3000",
-      ];
+      "http://localhost:5173", "http://localhost:3000",
+    ];
 
 const corsOptions = {
   origin: (origin, callback) => {
