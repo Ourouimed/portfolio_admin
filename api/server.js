@@ -27,6 +27,13 @@ config()
 // connect to mongodb
 connectDB()
 
+
+app.use("/api", (req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
+
+
 // configure routes
 app.use('/api/auth' , authRouter)
 app.use('/api/project' , projectRouter)
