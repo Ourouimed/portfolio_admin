@@ -1,6 +1,6 @@
 import type { SelectProps } from "../../interfaces/selectProps"
 export const Select = ({className , postIcon : PostIcon , preIcon : PreIcon , options , ...props} : SelectProps)=>{
-    return <div className="flex items-center gap-1 rounded-lg border border-gray-300">
+    return <div className="flex items-center gap-1 rounded-lg border border-gray-300 w-full">
         {PreIcon && <div className="px-3">
             <PreIcon size={16}/>
         </div>}

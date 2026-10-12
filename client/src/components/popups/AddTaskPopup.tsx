@@ -7,17 +7,22 @@ import { useTask } from "../../hooks/useTask";
 import { addTask } from "../../app/features/tasks/taskThunks";
 import { useToast } from "../../hooks/useToast";
 import { useAppDispatch } from "../../app/hooks";
+import { Select } from "../ui/Select";
 
 interface TaskInfo {
   title: string;
   content: string;
   date: string;
+  status: "Todo" | "Doing" | "Done"
+  priority: "Low" | "Medium" | "High"
 }
 
 interface FormErrors {
   title?: string;
   content?: string;
   date?: string;
+  status?: string
+  priority?: string
 }
 export const AddTaskPopup = ({ closePopup }: any) => {
   const [errors, setErrors] = useState<FormErrors>({});
@@ -25,6 +30,8 @@ export const AddTaskPopup = ({ closePopup }: any) => {
     title: "",
     content: "",
     date: "",
+    status: "Todo",
+    priority: "Medium"
   });
 
   const dispatch = useAppDispatch();
@@ -42,6 +49,8 @@ export const AddTaskPopup = ({ closePopup }: any) => {
     const tempErrors: FormErrors = {};
 
     if (!taskInfo.title.trim()) tempErrors.title = "Task title is required";
+    if (!taskInfo.status.trim()) tempErrors.status = "Task status is required";
+    if (!taskInfo.priority.trim()) tempErrors.priority = "Task priority is required";
     if (!taskInfo.content.trim())
       tempErrors.content = "Task content is required";
 
@@ -103,6 +112,34 @@ export const AddTaskPopup = ({ closePopup }: any) => {
         />
         {errors.date && <p className="text-red-500 text-[10px]">{errors.date}</p>}
       </div>
+
+      {/* Priority/Status Fields */}
+      <div className="flex items-center gap-4">
+        <div className="space-y-2 w-full">
+          <label htmlFor="date" className="block font-semibold text-sm">
+            Status
+          </label>
+          <Select id="status" options={["Todo", "Doing", "Done"]} value={taskInfo.status} onChange={
+            (e: any) => {
+              setTaskInfo((p: any) => ({ ...p, status: e.target.value }))
+            }
+          } />
+          {errors.status && <p className="text-red-500 text-[10px]">{errors.status}</p>}
+        </div>
+
+        <div className="space-y-2 w-full">
+          <label htmlFor="date" className="block font-semibold text-sm">
+            Priority
+          </label>
+          <Select id="priority" className="w-full" options={["Low", "Medium", "High"]} value={taskInfo.priority} onChange={
+            (e: any) => {
+              setTaskInfo((p: any) => ({ ...p, priority: e.target.value }))
+            }
+          } />
+          {errors.priority && <p className="text-red-500 text-[10px]">{errors.priority}</p>}
+        </div>
+      </div>
+
 
       {/* Content Field */}
       <div className="space-y-2">

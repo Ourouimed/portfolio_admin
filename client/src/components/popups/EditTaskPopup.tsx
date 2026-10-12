@@ -7,24 +7,31 @@ import { useTask } from "../../hooks/useTask";
 import { editTask } from "../../app/features/tasks/taskThunks";
 import { useToast } from "../../hooks/useToast";
 import { useAppDispatch } from "../../app/hooks";
+import { Select } from "../ui/Select";
 
 interface TaskInfo {
   title: string;
   content: string;
   date: string;
+  status: "Todo" | "Doing" | "Done"
+  priority: "Low" | "Medium" | "High"
 }
 
 interface FormErrors {
   title?: string;
   content?: string;
   date?: string;
+  status?: string
+  priority?: string
 }
-export const EditTaskPopup = ({ closePopup , task}: any) => {
+export const EditTaskPopup = ({ closePopup, task }: any) => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [taskInfo, setTaskInfo] = useState<TaskInfo>({
     title: task?.title || "",
     content: task?.content || "",
     date: new Date(task?.date).toISOString().slice(0, 16) || "",
+    status : task?.status || "",
+    priority : task?.priority || ""
   });
 
 
@@ -66,7 +73,7 @@ export const EditTaskPopup = ({ closePopup , task}: any) => {
   const handleEditTask = async () => {
     if (validate()) {
       try {
-        await dispatch(editTask({ data : taskInfo , _id : task._id})).unwrap();
+        await dispatch(editTask({ data: taskInfo, _id: task._id })).unwrap();
         toast.success("Task updated successfully");
         closePopup();
       } catch (err: any) {
@@ -106,6 +113,34 @@ export const EditTaskPopup = ({ closePopup , task}: any) => {
         />
         {errors.date && <p className="text-red-500 text-[10px]">{errors.date}</p>}
       </div>
+
+      {/* Priority/Status Fields */}
+      <div className="flex items-center gap-4">
+        <div className="space-y-2 w-full">
+          <label htmlFor="date" className="block font-semibold text-sm">
+            Status
+          </label>
+          <Select id="status" options={["Todo", "Doing", "Done"]} value={taskInfo.status} onChange={
+            (e: any) => {
+              setTaskInfo((p: any) => ({ ...p, status: e.target.value }))
+            }
+          } />
+          {errors.status && <p className="text-red-500 text-[10px]">{errors.status}</p>}
+        </div>
+
+        <div className="space-y-2 w-full">
+          <label htmlFor="date" className="block font-semibold text-sm">
+            Priority
+          </label>
+          <Select id="priority" className="w-full" options={["Low", "Medium", "High"]} value={taskInfo.priority} onChange={
+            (e: any) => {
+              setTaskInfo((p: any) => ({ ...p, priority: e.target.value }))
+            }
+          } />
+          {errors.priority && <p className="text-red-500 text-[10px]">{errors.priority}</p>}
+        </div>
+      </div>
+
 
       {/* Content Field */}
       <div className="space-y-2">

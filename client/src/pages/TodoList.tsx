@@ -12,12 +12,10 @@ import { TaskCard } from "../components/cards/TaskCard";
 import { DeleteTaskPopup } from "../components/popups/DeleteTaskPopup";
 import { EditTaskPopup } from "../components/popups/EditTaskPopup";
 
-type FilterStatus = "all" | "active" | "completed";
 
 const TodoList = () => {
   const dispatch = useAppDispatch();
   const { tasks, isLoading } = useTask();
-  const [filter, setFilter] = useState<FilterStatus>("all");
 
   // popup task
   const [popupTask, setPopupTask] = useState<TaskProps | null>(null);
@@ -27,20 +25,15 @@ const TodoList = () => {
   const [deletePopupIsOpen, setDeletePopupIsOpen] = useState(false);
   const [editPopupIsOpen, setEditPopupIsOpen] = useState(false);
 
-  const completedTasks = useMemo(() => {
-    return tasks.filter((t: TaskProps) => t.status === "completed");
+  const taskToRender = useMemo(() => {
+    return {
+      todo: tasks.filter((t: TaskProps) => t.status === "Todo"),
+      doing: tasks.filter((t: TaskProps) => t.status === "Doing"),
+      done: tasks.filter((t: TaskProps) => t.status === "Done"),
+      total: tasks.length
+    }
   }, [tasks]);
 
-  const filteredTasks = useMemo(() => {
-    switch (filter) {
-      case "active":
-        return tasks.filter((t: TaskProps) => t.status !== "completed");
-      case "completed":
-        return tasks.filter((t: TaskProps) => t.status === "completed");
-      default:
-        return tasks;
-    }
-  }, [tasks, filter]);
 
   useEffect(() => {
     dispatch(getTasks());
@@ -61,26 +54,12 @@ const TodoList = () => {
         <div className="space-y-1">
           <h3 className="font-bold text-xl">Tasks</h3>
           <p className="text-xs text-gray-500">
-            {completedTasks.length}/{tasks.length} completed tasks
+            {taskToRender.done.length}/{taskToRender.total} completed tasks
           </p>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1 py-2 px-4 rounded-md border border-gray-300 flex-wrap">
-            {(["all", "active", "completed"] as const).map((status) => (
-              <button
-                key={status}
-                onClick={() => setFilter(status)}
-                className={`capitalize text-xs cursor-pointer px-2 py-1 rounded-md transition duration-300 ${
-                  filter === status
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                {status}
-              </button>
-            ))}
-          </div>
+
 
           <Button size="sm" onClick={() => setAddPopupIsOpen(true)}>
             New Task
@@ -114,15 +93,14 @@ const TodoList = () => {
         />
       </Popup>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
-        {isLoading ? (
-          Array.from({ length: 6 }).map((_, i) => <TaskSkeleton key={i} />)
-        ) : filteredTasks.length === 0 ? (
-          <p>
-            {filter === "all" ? "No tasks yet" : `No ${filter} tasks found`}
-          </p>
-        ) : (
-          filteredTasks.map((t: TaskProps) => (
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-4">
+        {/* Todo */}
+        <div className="p-4 rounded-xl bg-gray-100 border border-gray-100">
+          <h4 className="font-semibold mb-4">Todo {taskToRender.todo.length}</h4>
+          {isLoading ? (
+            Array.from({length: 6 }).map((_, i) => <TaskSkeleton key={i} />)
+          ) : 
+            taskToRender.todo.map((t: TaskProps) => (
             <TaskCard
               key={t._id}
               task={t}
@@ -130,7 +108,43 @@ const TodoList = () => {
               onUpdate={() => handleOpenEditTaskPopup(t)}
             />
           ))
-        )}
+          }
+        </div>
+
+        {/* Doing */}
+        <div className="p-4 rounded-xl bg-gray-100 border border-gray-100">
+          <h4 className="font-semibold mb-4">Doing {taskToRender.doing.length}</h4>
+          {isLoading ? (
+            Array.from({length: 6 }).map((_, i) => <TaskSkeleton key={i} />)
+          ) : 
+            taskToRender.doing.map((t: TaskProps) => (
+            <TaskCard
+              key={t._id}
+              task={t}
+              onDelete={() => handleOpenDeleteTaskPopup(t)}
+              onUpdate={() => handleOpenEditTaskPopup(t)}
+            />
+          ))
+          }
+        </div>
+
+
+        {/* Done */}
+        <div className="p-4 rounded-xl bg-gray-100 border border-gray-100">
+          <h4 className="font-semibold mb-4">Done {taskToRender.done.length}</h4>
+          {isLoading ? (
+            Array.from({length: 6 }).map((_, i) => <TaskSkeleton key={i} />)
+          ) : 
+            taskToRender.done.map((t: TaskProps) => (
+            <TaskCard
+              key={t._id}
+              task={t}
+              onDelete={() => handleOpenDeleteTaskPopup(t)}
+              onUpdate={() => handleOpenEditTaskPopup(t)}
+            />
+          ))
+          }
+        </div>
       </div>
     </div>
   );
