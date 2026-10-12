@@ -8,8 +8,14 @@ const taskSchema = Schema(
     status: {
       type: String,
       required: true,
-      enum: ["active", "completed"],
-      default: "active",
+      enum: ["Todo", "Doing" , "Done"],
+      default: "Todo",
+    },
+    priority: {
+      type: String,
+      required: true,
+      enum: ["Low", "Medium" , "High"],
+      default: "Medium",
     },
   },
   { timestamps: true },

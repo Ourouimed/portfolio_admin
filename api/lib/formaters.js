@@ -45,6 +45,7 @@ export const taskFormater = (t)=>{
     title : t?.title || "",
     content : t?.content || "",
     status : t?.status || "",
+    priority : t?.priority || "",
     date : t?.date || new Date(),
     createdAt: t?.createdAt || new Date(),
     updatedAt: t?.updatedAt || new Date(),

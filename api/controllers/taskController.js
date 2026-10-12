@@ -3,9 +3,9 @@ import Task from "../models/Task.js";
 
 export const addTask = async (req, res) => {
   try {
-    const { title, content, date } = req.body;
+    const { title, content, date , status , priority} = req.body;
 
-    if (!title || !content || !date)
+    if (!title || !content || !date || !status || !priority)
       return res.status(400).json({
         error: "Missing some required fields",
       });
@@ -29,6 +29,8 @@ export const addTask = async (req, res) => {
       title,
       content,
       date,
+      status ,
+      priority
     });
 
    
@@ -68,13 +70,10 @@ export const changeTaskStatus = async (req, res) => {
         })
     }
 
-    // if (!(["active" , "completed"].includes(status))){
-    //     return res.status(404).json({
-    //         error : "Unvalid status"
-    //     })
-    // }
 
-    const newStatus = task.status === "active" ? "completed" : "active"
+    const newStatus = task.status === "Todo" ? "Doing" : 
+                      task.status === "Doing" ? "Done" :
+                      "Todo"
 
     const newTask = await Task.findByIdAndUpdate(id , {
         $set : {
@@ -117,7 +116,7 @@ export const editTask = async (req, res) => {
     const { id } = req.params;
 
 
-    const { title, content, date } = req.body;
+    const { title, content, date , status , priority } = req.body;
 
     const task = await Task.findByIdAndUpdate(
       id,
@@ -125,7 +124,9 @@ export const editTask = async (req, res) => {
         $set: {
           ...(title && { title }),
           ...(content && { content }),
-          ...(date && { date }),
+          ...(date && { date }), 
+          ...(status && { status }),
+          ...(priority && { priority }),
         },
       },
       { new: true },
