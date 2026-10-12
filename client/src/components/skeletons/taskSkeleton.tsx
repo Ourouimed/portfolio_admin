@@ -1,32 +1,25 @@
+
 export const TaskSkeleton = () => {
   return (
-    <article
-      aria-hidden="true"
-      className="group relative flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-5 shadow-xs animate-pulse"
-    >
-      <div>
-        {/* Badge & Date */}
-        <div className="flex items-center justify-between gap-3">
-          <div className="h-5 w-20 rounded-full bg-neutral-200" />
-          <div className="h-3.5 w-28 rounded-md bg-neutral-200" />
-        </div>
+    <div className="bg-white border border-gray-300 p-4 rounded-xl space-y-3 animate-pulse">
 
-        {/* Title */}
-        <div className="mt-3.5 h-5 w-3/5 rounded-md bg-neutral-200" />
-
-        {/* Content lines */}
-        <div className="mt-2.5 space-y-2">
-          <div className="h-3.5 w-full rounded-md bg-neutral-200" />
-          <div className="h-3.5 w-5/6 rounded-md bg-neutral-200" />
-          <div className="h-3.5 w-2/3 rounded-md bg-neutral-200" />
-        </div>
+      <div className="flex items-center justify-between">
+        <div className="h-4 bg-gray-200 rounded w-2/3" />
+        <div className="size-8 bg-gray-200 rounded-full shrink-0" />
       </div>
 
-      {/* Footer: ID & Action link */}
-      <div className="mt-4 flex items-center justify-between border-t border-neutral-100 pt-3">
-        <div className="h-3 w-16 rounded-md bg-neutral-200" />
-        <div className="h-3.5 w-24 rounded-md bg-neutral-200" />
+
+      <div className="h-3 bg-gray-200 rounded w-1/3" />
+
+
+      <div className="flex items-center justify-between">
+        <div className="h-6 bg-gray-200 rounded-full w-16" />
+
+        <div className="flex items-center gap-2">
+          <div className="size-4 bg-gray-200 rounded" />
+          <div className="size-4 bg-gray-200 rounded" />
+        </div>
       </div>
-    </article>
+    </div>
   );
 };

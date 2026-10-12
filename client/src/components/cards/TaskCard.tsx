@@ -21,7 +21,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
 
   return <div className="bg-white border border-gray-300 p-4 rounded-xl space-y-2">
     <div className="flex items-center justify-between">
-      <h4 className="font-semibold text-sm">
+      <h4 className={`font-semibold text-sm  ${task?.status === "Done" ? "line-through text-gray-500" : ""}`}>
         {task?.title}
       </h4>
       <button onClick={handleChangeStatus} className="size-8 rounded-full flex items-center justify-center cursor-pointer transition duration-300 hover:bg-gray-400/30">
@@ -63,68 +63,4 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
     </div>
   </div>
 
-
-  // <div className="group bg-white rounded-md border border-gray-300 p-4">
-  //     <div>
-  //       <div className="flex items-center justify-between capitalize">
-  //         <div className="flex items-center gap-2">
-  //           <div className="size-5 p-0.5 rounded-full border border-gray-300">
-  //             {isCompleted && (
-  //               <div className="bg-green-500 w-full rounded-full flex items-center justify-center h-full">
-  //                 <Check size={12} className="text-white" />
-  //               </div>
-  //             )}
-  //           </div>
-  //           <h4
-  //             onClick={handleChangeStatus}
-  //             className={`font-semibold text-sm cursor-pointer ${isCompleted ? "text-gray-500 line-through" : ""}`}
-  //           >
-  //             {task?.title}
-  //           </h4>
-  //         </div>
-
-  //         <span
-  //           className={`inline-flex items-center gap-2 py-1 px-3 rounded-sm text-xs ${isCompleted ? "bg-green-500/30 text-green-500 font-semibold" : "bg-blue-500/30 text-blue-500 font-semibold"}`}
-  //         >
-  //           <span
-  //             className={`flex size-2 rounded-full ${isCompleted ? "bg-green-500" : "bg-blue-500"}`}
-  //           />
-  //           {task?.status}
-  //         </span>
-  //       </div>
-
-  //       <p className="text-gray-500 text-xs capitalize mt-3 line-clamp-2">
-  //         {task?.content}
-  //       </p>
-
-  //       <div className="border-t border-gray-300 flex items-center justify-between flex-wrap mt-2 pt-4">
-  //         <div className="inline-flex items-center gap-2 bg-yellow-500/30 text-[10px] py-1 px-3 rounded-md">
-  //           <Calendar size={12} className={"text-yellow-500"} />
-  //           <span className="text-yellow-500">{formatDate(task?.date)}</span>
-  //         </div>
-
-  //         {(onUpdate || onDelete) && (
-  //           <div className="flex items-center gap-2">
-  //             {onUpdate && (
-  //               <button
-  //                 onClick={()=> task?._id && onUpdate(task?._id)}
-  //                 className="text-gray-500 text-xs cursor-pointer hover:text-black transition duration-300"
-  //               >
-  //                 <Edit size={14} />
-  //               </button>
-  //             )}
-
-  //             {onDelete && (
-  //               <button
-  //                 onClick={()=> task?._id && onDelete(task?._id)}
-  //                 className="text-gray-500 text-xs cursor-pointer hover:text-red-500 transition duration-300"
-  //               >
-  //                 <Trash2 size={14} />
-  //               </button>
-  //             )}
-  //           </div>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </div>
 };

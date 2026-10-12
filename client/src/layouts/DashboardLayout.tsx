@@ -8,7 +8,7 @@ import { Menu, X } from "lucide-react"
 
 const DashboardLayout = ()=>{
     const { isInitialized , user } = useAuth()
-    const [sidebarOpen , setSidebarOpen]  = useState<boolean>(true)
+    const [sidebarOpen , setSidebarOpen]  = useState<boolean>(false)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {

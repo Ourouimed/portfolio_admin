@@ -98,16 +98,20 @@ const TodoList = () => {
         <div className="p-4 rounded-xl bg-gray-100 border border-gray-100">
           <h4 className="font-semibold mb-4">Todo {taskToRender.todo.length}</h4>
           {isLoading ? (
-            Array.from({length: 6 }).map((_, i) => <TaskSkeleton key={i} />)
-          ) : 
-            taskToRender.todo.map((t: TaskProps) => (
-            <TaskCard
-              key={t._id}
-              task={t}
-              onDelete={() => handleOpenDeleteTaskPopup(t)}
-              onUpdate={() => handleOpenEditTaskPopup(t)}
-            />
-          ))
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => <TaskSkeleton key={i} />)}
+            </div>
+          ) :
+            <div className="space-y-2">
+              {taskToRender.todo.map((t: TaskProps) => (
+                <TaskCard
+                  key={t._id}
+                  task={t}
+                  onDelete={() => handleOpenDeleteTaskPopup(t)}
+                  onUpdate={() => handleOpenEditTaskPopup(t)}
+                />
+              ))}
+            </div>
           }
         </div>
 
@@ -115,16 +119,20 @@ const TodoList = () => {
         <div className="p-4 rounded-xl bg-gray-100 border border-gray-100">
           <h4 className="font-semibold mb-4">Doing {taskToRender.doing.length}</h4>
           {isLoading ? (
-            Array.from({length: 6 }).map((_, i) => <TaskSkeleton key={i} />)
-          ) : 
-            taskToRender.doing.map((t: TaskProps) => (
-            <TaskCard
-              key={t._id}
-              task={t}
-              onDelete={() => handleOpenDeleteTaskPopup(t)}
-              onUpdate={() => handleOpenEditTaskPopup(t)}
-            />
-          ))
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => <TaskSkeleton key={i} />)}
+            </div>
+          ) :
+            <div className="space-y-2">
+              {taskToRender.doing.map((t: TaskProps) => (
+                <TaskCard
+                  key={t._id}
+                  task={t}
+                  onDelete={() => handleOpenDeleteTaskPopup(t)}
+                  onUpdate={() => handleOpenEditTaskPopup(t)}
+                />
+              ))}
+            </div>
           }
         </div>
 
@@ -133,16 +141,20 @@ const TodoList = () => {
         <div className="p-4 rounded-xl bg-gray-100 border border-gray-100">
           <h4 className="font-semibold mb-4">Done {taskToRender.done.length}</h4>
           {isLoading ? (
-            Array.from({length: 6 }).map((_, i) => <TaskSkeleton key={i} />)
-          ) : 
-            taskToRender.done.map((t: TaskProps) => (
-            <TaskCard
-              key={t._id}
-              task={t}
-              onDelete={() => handleOpenDeleteTaskPopup(t)}
-              onUpdate={() => handleOpenEditTaskPopup(t)}
-            />
-          ))
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => <TaskSkeleton key={i} />)}
+            </div>
+          ) :
+            <div className="space-y-2">
+              {taskToRender.done.map((t: TaskProps) => (
+                <TaskCard
+                  key={t._id}
+                  task={t}
+                  onDelete={() => handleOpenDeleteTaskPopup(t)}
+                  onUpdate={() => handleOpenEditTaskPopup(t)}
+                />
+              ))}
+            </div>
           }
         </div>
       </div>
