@@ -1,4 +1,4 @@
-import { Calendar, Check, ChevronRight, Edit, Trash2 } from "lucide-react";
+import { ChevronRight, Edit, Trash2 } from "lucide-react";
 import type { TaskCardProps } from "../../interfaces/tasksProps";
 import { formatDate } from "../../lib/date-formaters";
 import { useAppDispatch } from "../../app/hooks";
