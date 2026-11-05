@@ -6,7 +6,6 @@ import ErrorPage from "./pages/ErrorPage";
 import MyJourney from "./pages/MyJourney";
 import TodoList from "./pages/TodoList";
 import ProfilePage from "./pages/ProfilePage";
-import Freelence from "./pages/Freelancing";
 import Portfolio from "./pages/Portfolio";
 import Freelancing from "./pages/Freelancing";
 

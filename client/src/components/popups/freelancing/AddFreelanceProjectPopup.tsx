@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from "react"
+import { useState, type ChangeEvent } from "react"
 import type { FreelanceProjectProps } from "../../../interfaces/freelancingProps"
 import { Input } from "../../ui/Input"
 import { TextArea } from "../../ui/Textarea"
