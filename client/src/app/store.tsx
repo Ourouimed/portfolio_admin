@@ -4,6 +4,7 @@ import toastReducer  from "./features/toast/toastSlice"
 import projectReducer  from "./features/project/projectSlice"
 import journeyReducer  from "./features/journey/journeySlice"
 import taskReducer  from "./features/tasks/taskSlice"
+import freelancingReducer  from "./features/freelancing/freelancingSlice"
 
 export const store = configureStore({
     reducer : {
@@ -11,7 +12,8 @@ export const store = configureStore({
         toast : toastReducer ,
         project : projectReducer ,
         journey : journeyReducer ,
-        task : taskReducer
+        task : taskReducer ,
+        freelancing : freelancingReducer
     }
 })
 

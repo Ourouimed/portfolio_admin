@@ -1,10 +1,10 @@
 import { Loader2 } from "lucide-react";
-import { useAppDispatch } from "../../app/hooks";
-import { useProject } from "../../hooks/useProject";
-import { useToast } from "../../hooks/useToast";
-import { Button } from "../ui/Button";
-import type { JourneyCardProps } from "../../interfaces/journeyProps";
-import { deleteJourney } from "../../app/features/journey/journeyThunks";
+import { useAppDispatch } from "../../../app/hooks";
+import { useProject } from "../../../hooks/useProject";
+import { useToast } from "../../../hooks/useToast";
+import { Button } from "../../ui/Button";
+import type { JourneyCardProps } from "../../../interfaces/journeyProps";
+import { deleteJourney } from "../../../app/features/journey/journeyThunks";
 
 export const DeleteJourneyPopup = ({
   journey ,

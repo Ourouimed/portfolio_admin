@@ -1,13 +1,13 @@
 import { useState, type ChangeEvent } from "react";
-import { Input } from "../ui/Input";
-import { TextArea } from "../ui/Textarea";
-import { Button } from "../ui/Button";
+import { Input } from "../../ui/Input";
+import { TextArea } from "../../ui/Textarea";
+import { Button } from "../../ui/Button";
 import { Loader2 } from "lucide-react";
-import { useTask } from "../../hooks/useTask";
-import { addTask } from "../../app/features/tasks/taskThunks";
-import { useToast } from "../../hooks/useToast";
-import { useAppDispatch } from "../../app/hooks";
-import { Select } from "../ui/Select";
+import { useTask } from "../../../hooks/useTask";
+import { editTask } from "../../../app/features/tasks/taskThunks";
+import { useToast } from "../../../hooks/useToast";
+import { useAppDispatch } from "../../../app/hooks";
+import { Select } from "../../ui/Select";
 
 interface TaskInfo {
   title: string;
@@ -24,15 +24,17 @@ interface FormErrors {
   status?: string
   priority?: string
 }
-export const AddTaskPopup = ({ closePopup }: any) => {
+export const EditTaskPopup = ({ closePopup, task }: any) => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [taskInfo, setTaskInfo] = useState<TaskInfo>({
-    title: "",
-    content: "",
-    date: "",
-    status: "Todo",
-    priority: "Medium"
+    title: task?.title || "",
+    content: task?.content || "",
+    date: new Date(task?.date).toISOString().slice(0, 16) || "",
+    status: task?.status || "",
+    priority: task?.priority || ""
   });
+
+
 
   const dispatch = useAppDispatch();
   const toast = useToast();
@@ -43,14 +45,13 @@ export const AddTaskPopup = ({ closePopup }: any) => {
   ) => {
     const { id, value } = e.target;
     setTaskInfo((prev) => ({ ...prev, [id]: value }));
+    console.log(taskInfo)
   };
 
   const validate = (): boolean => {
     const tempErrors: FormErrors = {};
 
     if (!taskInfo.title.trim()) tempErrors.title = "Task title is required";
-    if (!taskInfo.status.trim()) tempErrors.status = "Task status is required";
-    if (!taskInfo.priority.trim()) tempErrors.priority = "Task priority is required";
     if (!taskInfo.content.trim())
       tempErrors.content = "Task content is required";
 
@@ -69,14 +70,14 @@ export const AddTaskPopup = ({ closePopup }: any) => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleAddTask = async () => {
+  const handleEditTask = async () => {
     if (validate()) {
       try {
-        await dispatch(addTask(taskInfo)).unwrap();
-        toast.success("Task added successfully");
+        await dispatch(editTask({ data: taskInfo, _id: task._id })).unwrap();
+        toast.success("Task updated successfully");
         closePopup();
       } catch (err: any) {
-        toast.error(err || "Failed to add task");
+        toast.error(err || "Failed to update task");
       }
     }
   };
@@ -156,14 +157,20 @@ export const AddTaskPopup = ({ closePopup }: any) => {
         {errors.content && <p className="text-red-500 text-[10px]">{errors.content}</p>}
       </div>
 
-      <Button
-        fullWidth
-        disabled={isLoading}
-        onClick={handleAddTask}
-        className="bg-blue-500"
-      >
-        {isLoading ? <Loader2 className="animate-spin" /> : "Add Task"}
-      </Button>
+      <div className="flex justify-end gap-2 pt-2">
+        <Button
+          variant="outline"
+          onClick={closePopup}
+        >
+          Cancel
+        </Button>
+        <Button
+          disabled={isLoading}
+          onClick={handleEditTask}
+        >
+          {isLoading ? <Loader2 className="animate-spin" /> : "Save task"}
+        </Button>
+      </div>
     </div>
   );
 };

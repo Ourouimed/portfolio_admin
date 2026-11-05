@@ -1,10 +1,10 @@
 import { Loader2 } from "lucide-react";
-import { useAppDispatch } from "../../app/hooks";
-import { useProject } from "../../hooks/useProject";
-import { useToast } from "../../hooks/useToast";
-import { Button } from "../ui/Button";
-import type { TaskCardProps } from "../../interfaces/tasksProps";
-import { deleteTask } from "../../app/features/tasks/taskThunks";
+import { useAppDispatch } from "../../../app/hooks";
+import { useProject } from "../../../hooks/useProject";
+import { useToast } from "../../../hooks/useToast";
+import { Button } from "../../ui/Button";
+import type { TaskCardProps } from "../../../interfaces/tasksProps";
+import { deleteTask } from "../../../app/features/tasks/taskThunks";
 
 export const DeleteTaskPopup = ({
   task ,

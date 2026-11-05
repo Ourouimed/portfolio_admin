@@ -1,7 +1,7 @@
 import { Code, Eye, Calendar } from "lucide-react";
-import type { ProjectCardProps } from "../../interfaces/projectProps";
-import { Button } from "../ui/Button";
-import { formatDate } from "../../lib/date-formaters";
+import type { ProjectCardProps } from "../../../interfaces/projectProps";
+import { Button } from "../../ui/Button";
+import { formatDate } from "../../../lib/date-formaters";
 
 export const ProjectPreviewPopup = ({ project }: ProjectCardProps) => {
   

@@ -151,7 +151,7 @@ const ProfilePage = () => {
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h3 className="font-bold text-xl">Manage profile</h3>
+        <h3 className="font-bold text-3xl">Manage profile</h3>
 
         <Button size="sm" onClick={handleSaveProfile} className={isLoading ? "opacity-70" : "opacity-100"} disabled={isLoading}>
           Save profile
@@ -162,7 +162,7 @@ const ProfilePage = () => {
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 mt-4">
         <div className="p-4 rounded-lg border border-gray-300 space-y-4">
           <div className="flex items-center gap-2">
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label htmlFor="email" className="block font-semibold text-sm">
                 Email      
               </label>
@@ -175,7 +175,7 @@ const ProfilePage = () => {
               {errors.email && <p className="text-red-500 text-[10px]">{errors.email}</p>}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label
                 htmlFor="instagram"
                 className="block font-semibold text-sm"
@@ -193,7 +193,7 @@ const ProfilePage = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label htmlFor="github" className="block font-semibold text-sm">
                 Github
               </label>
@@ -206,7 +206,7 @@ const ProfilePage = () => {
               {errors.github && <p className="text-red-500 text-[10px]">{errors.github}</p>}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label htmlFor="linkedin" className="block font-semibold text-sm">
                 Linkedin
               </label>
@@ -221,7 +221,7 @@ const ProfilePage = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label htmlFor="whatsapp" className="block font-semibold text-sm">
                 Whatsapp
               </label>
@@ -234,7 +234,7 @@ const ProfilePage = () => {
               {errors.whatsapp && <p className="text-red-500 text-[10px]">{errors.whatsapp}</p>}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label htmlFor="location" className="block font-semibold text-sm">
                 Location
               </label>

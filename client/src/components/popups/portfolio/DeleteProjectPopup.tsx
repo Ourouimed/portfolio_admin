@@ -1,10 +1,10 @@
 import { Loader2 } from "lucide-react";
-import { useAppDispatch } from "../../app/hooks";
-import { useProject } from "../../hooks/useProject";
-import { useToast } from "../../hooks/useToast";
-import type { ProjectCardProps } from "../../interfaces/projectProps";
-import { Button } from "../ui/Button";
-import { deleteProject } from "../../app/features/project/projectThunks";
+import { useAppDispatch } from "../../../app/hooks";
+import { useProject } from "../../../hooks/useProject";
+import { useToast } from "../../../hooks/useToast";
+import type { ProjectCardProps } from "../../../interfaces/projectProps";
+import { Button } from "../../ui/Button";
+import { deleteProject } from "../../../app/features/project/projectThunks";
 
 export const DeleteProjectPopup = ({
   project ,

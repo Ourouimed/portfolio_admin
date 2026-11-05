@@ -5,13 +5,13 @@ import { useJourney } from "../hooks/useJourney";
 import { Button } from "../components/ui/Button";
 import { Popup } from "../components/Popup";
 import { Plus } from "lucide-react";
-import { AddJourneyPopup } from "../components/popups/AddJourneyPopup";
+import { AddJourneyPopup } from "../components/popups/journey/AddJourneyPopup";
 import JourneySkeleton from "../components/skeletons/JourneySkeleton";
 import type { JourneyProps } from "../interfaces/journeyProps";
 import JourneyCard from "../components/cards/JourneyCard";
-import { DeleteJourneyPopup } from "../components/popups/DeleteJourneyPopup";
-import { EditJourneyPopup } from "../components/popups/EditJourneyPopup";
-import { JourneyPreviewPopup } from "../components/popups/JourneyPreviewPopup";
+import { EditJourneyPopup } from "../components/popups/journey/EditJourneyPopup";
+import { JourneyPreviewPopup } from "../components/popups/journey/JourneyPreviewPopup";
+import { DeleteJourneyPopup } from "../components/popups/journey/DeleteJourneyPopup";
 
 const MyJourney = () => {
   const dispatch = useAppDispatch();

@@ -1,14 +1,14 @@
 import { useState, type ChangeEvent } from "react";
-import type { JourneyProps } from "../../interfaces/journeyProps";
-import { useAppDispatch } from "../../app/hooks";
-import { useToast } from "../../hooks/useToast";
-import { useJourney } from "../../hooks/useJourney";
-import { Input } from "../ui/Input";
-import { Select } from "../ui/Select";
-import { Button } from "../ui/Button";
+import type { JourneyProps } from "../../../interfaces/journeyProps";
+import { useAppDispatch } from "../../../app/hooks";
+import { useToast } from "../../../hooks/useToast";
+import { useJourney } from "../../../hooks/useJourney";
+import { Input } from "../../ui/Input";
+import { Select } from "../../ui/Select";
+import { Button } from "../../ui/Button";
 import { Loader2 } from "lucide-react";
-import { addJourney } from "../../app/features/journey/journeyThunks";
-import { TextArea } from "../ui/Textarea";
+import { addJourney } from "../../../app/features/journey/journeyThunks";
+import { TextArea } from "../../ui/Textarea";
 
 interface FormErrors {
   title?: string;
@@ -222,14 +222,20 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
         )}
       </div>
 
-      <Button
-        fullWidth
-        disabled={isLoading}
-        onClick={handleAddJourney}
-        className="bg-blue-500"
-      >
-        {isLoading ? <Loader2 className="animate-spin" /> : "Add Journey"}
-      </Button>
+      <div className="flex justify-end gap-2 pt-2">
+        <Button
+          variant="outline"
+          onClick={closePopup}
+        >
+          Cancel
+        </Button>
+        <Button
+          disabled={isLoading}
+          onClick={handleAddJourney}
+        >
+          {isLoading ? <Loader2 className="animate-spin" /> : "Save Journey"}
+        </Button>
+      </div>
     </div>
   );
 };

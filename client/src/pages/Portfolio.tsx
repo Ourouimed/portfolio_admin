@@ -2,18 +2,18 @@ import { Plus } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Popup } from "../components/Popup";
 import { useEffect, useState } from "react";
-import { AddProjectPopup } from "../components/popups/AddProjectPopup";
+import { AddProjectPopup } from "../components/popups/portfolio/AddProjectPopup";
 import { useAppDispatch } from "../app/hooks";
 import { useProject } from "../hooks/useProject";
 import { getAllProjects } from "../app/features/project/projectThunks";
 import { ProjectSkeleton } from "../components/skeletons/ProjectSkeleton";
 import { ProjectCard } from "../components/cards/ProjectCard";
 import type { ProjectProps } from "../interfaces/projectProps";
-import { ProjectPreviewPopup } from "../components/popups/ProjectPreviewPopup";
-import { EditProjectPopup } from "../components/popups/EditProjectPopup";
-import { DeleteProjectPopup } from "../components/popups/DeleteProjectPopup";
+import { ProjectPreviewPopup } from "../components/popups/portfolio/ProjectPreviewPopup";
+import { EditProjectPopup } from "../components/popups/portfolio/EditProjectPopup";
+import { DeleteProjectPopup } from "../components/popups/portfolio/DeleteProjectPopup";
 
-const Projetcs = () => {
+const Portfolio = () => {
   const dispatch = useAppDispatch()
   const { projects , isLoading} = useProject()
   const [addPopupIsOpen , setAddPopupIsOpen] = useState<boolean>(false);
@@ -46,7 +46,12 @@ const Projetcs = () => {
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h3 className="font-bold text-xl">My projects</h3>
+        <div className="space-y-3">
+          <h3 className="font-bold text-3xl">My Portfolio</h3>
+          <p className="text-sm text-gray-500">
+             Manage your projects
+          </p>
+        </div>
         <Button size="sm" onClick={()=>setAddPopupIsOpen(true)}>
           Add Project
           <Plus size={13} />
@@ -84,4 +89,4 @@ const Projetcs = () => {
     </div>
   );
 };
-export default Projetcs;
+export default Portfolio;

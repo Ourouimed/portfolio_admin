@@ -2,15 +2,15 @@ import { Plus } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import { Popup } from "../components/Popup";
-import { AddTaskPopup } from "../components/popups/AddTaskPopup";
+import { AddTaskPopup } from "../components/popups/tasks/AddTaskPopup";
 import { getTasks } from "../app/features/tasks/taskThunks";
 import { useAppDispatch } from "../app/hooks";
 import { useTask } from "../hooks/useTask";
 import { TaskSkeleton } from "../components/skeletons/taskSkeleton";
 import type { TaskProps } from "../interfaces/tasksProps";
 import { TaskCard } from "../components/cards/TaskCard";
-import { DeleteTaskPopup } from "../components/popups/DeleteTaskPopup";
-import { EditTaskPopup } from "../components/popups/EditTaskPopup";
+import { DeleteTaskPopup } from "../components/popups/tasks/DeleteTaskPopup";
+import { EditTaskPopup } from "../components/popups/tasks/EditTaskPopup";
 
 
 const TodoList = () => {
@@ -51,9 +51,9 @@ const TodoList = () => {
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="space-y-1">
-          <h3 className="font-bold text-xl">Tasks</h3>
-          <p className="text-xs text-gray-500">
+        <div className="space-y-2">
+          <h3 className="font-bold text-3xl">Tasks</h3>
+          <p className="text-sm text-gray-500">
             {taskToRender.done.length}/{taskToRender.total} completed tasks
           </p>
         </div>

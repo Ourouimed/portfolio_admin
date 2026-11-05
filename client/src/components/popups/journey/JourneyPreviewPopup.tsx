@@ -1,5 +1,5 @@
 import { Calendar, MapPinIcon, Tag } from "lucide-react";
-import type { JourneyCardProps } from "../../interfaces/journeyProps";
+import type { JourneyCardProps } from "../../../interfaces/journeyProps";
 
 export const JourneyPreviewPopup = ({ journey }: JourneyCardProps) => {
   return (
