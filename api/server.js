@@ -11,6 +11,7 @@ import projectRouter from "./routes/project.js"
 import journeyRouter from "./routes/journey.js"
 import taskRouter from "./routes/task.js"
 import profileRouter from "./routes/profile.js"
+import freelancingRouter from "./routes/freelancing.js"
 
 
 const app = express()
@@ -40,6 +41,7 @@ app.use('/api/project' , projectRouter)
 app.use('/api/journey' , journeyRouter)
 app.use('/api/task' , taskRouter)
 app.use('/api/profile' , profileRouter)
+app.use('/api/freelancing' , freelancingRouter)
 
 app.listen(PORT , ()=>{
     console.log(`app is running on http://localhost:${PORT}`)
