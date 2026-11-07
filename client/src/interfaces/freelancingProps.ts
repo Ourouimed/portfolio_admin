@@ -16,3 +16,8 @@ export interface FreelanceProjectProps {
     createdAt? : string 
     docs : []
 }
+
+
+export interface FreelanceProjectCardProps {
+    project : FreelanceProjectProps | null
+}

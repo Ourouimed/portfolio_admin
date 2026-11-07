@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { FreelancingState } from "./freelancingTypes";
-import { addFreelanceProject } from "./freelancingThunks";
+import { addFreelanceProject, getFreelanceProjects } from "./freelancingThunks";
 
 const initialState: FreelancingState = {
     isLoading: false,
@@ -12,6 +12,20 @@ const freelancingSlice = createSlice({
     reducers: {},
 
     extraReducers: builder => builder
+        // get freelance projects
+        .addCase(getFreelanceProjects.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(getFreelanceProjects.fulfilled, (state, action) => {
+            state.isLoading = false;
+            console.log(action.payload);
+            state.freelanceProjects = action.payload.freelanceProjects;
+        })
+        .addCase(getFreelanceProjects.rejected, (state) => {
+            state.isLoading = false;
+        })
+
+
         // add project 
         .addCase(addFreelanceProject.pending, (state) => {
             state.isLoading = true;

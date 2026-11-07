@@ -8,6 +8,8 @@ import TodoList from "./pages/TodoList";
 import ProfilePage from "./pages/ProfilePage";
 import Portfolio from "./pages/Portfolio";
 import Freelancing from "./pages/Freelancing";
+import ProjectDetailsPage from "./pages/Test";
+import ProjectsListPage from "./pages/Test2";
 
 export const router = createBrowserRouter([
     {
@@ -43,6 +45,14 @@ export const router = createBrowserRouter([
                 element : <Freelancing/>
             }
         ]
+    },
+    {
+        path : "/test" ,
+        element : <ProjectDetailsPage/>
+    },
+    {
+        path : "/test2" ,
+        element : <ProjectsListPage/>
     },
     {
         path : "*" ,

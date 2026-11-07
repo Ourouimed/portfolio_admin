@@ -11,3 +11,13 @@ export const addFreelanceProject = createAsyncThunk('freelancing/add' , async (d
     return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
   }
 })
+
+
+export const getFreelanceProjects = createAsyncThunk('freelancing/get' , async (_, thunkAPI)=>{
+  try {
+    return await freelancingService.getFreelanceProjects()
+  }
+  catch (err: any){
+    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+  }
+})

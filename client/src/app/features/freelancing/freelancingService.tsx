@@ -6,5 +6,12 @@ const addFreelanceProject = async (data : FreelanceProject)=>{
     return respone.data
 }
 
-const freelancingService = { addFreelanceProject }
+const getFreelanceProjects = async ()=>{
+    const respone = await axiosService.get(`/api/freelancing`);
+    return respone.data
+}
+
+
+
+const freelancingService = { addFreelanceProject , getFreelanceProjects}
 export default freelancingService

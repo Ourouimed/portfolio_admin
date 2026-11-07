@@ -20,14 +20,14 @@ const MyJourney = () => {
   const [editJourneyPopupIsOpen, setEditJourneyPopupIsOpen] =
     useState<boolean>(false);
 
-    const [deleteJourneyPopupIsOpen, setDeleteJourneyPopupIsOpen] =
+  const [deleteJourneyPopupIsOpen, setDeleteJourneyPopupIsOpen] =
     useState<boolean>(false);
 
-    const [previewPopupIsOpen, setPreviewPopupIsOpen] =
+  const [previewPopupIsOpen, setPreviewPopupIsOpen] =
     useState<boolean>(false);
 
-    const [journeyPopup , setJourneyPopup] = useState<JourneyProps | null>(null)
-  const { journeys , isLoading } = useJourney();
+  const [journeyPopup, setJourneyPopup] = useState<JourneyProps | null>(null)
+  const { journeys, isLoading } = useJourney();
 
   useEffect(() => {
     dispatch(getJourney());
@@ -36,20 +36,20 @@ const MyJourney = () => {
   }, [dispatch]);
 
 
-  const handleOpenEditJourneyPopup = (p : JourneyProps)=>{
-      setEditJourneyPopupIsOpen(true)
-      setJourneyPopup(p)
-    }
-  
-    const handleOpenDeleteJourneyPopup = (p : JourneyProps)=>{
-      setDeleteJourneyPopupIsOpen(true)
-      setJourneyPopup(p)
-    }
+  const handleOpenEditJourneyPopup = (p: JourneyProps) => {
+    setEditJourneyPopupIsOpen(true)
+    setJourneyPopup(p)
+  }
 
-    const handleOpenPreviewPopup = (p : JourneyProps)=>{
-      setPreviewPopupIsOpen(true)
-      setJourneyPopup(p)
-    }
+  const handleOpenDeleteJourneyPopup = (p: JourneyProps) => {
+    setDeleteJourneyPopupIsOpen(true)
+    setJourneyPopup(p)
+  }
+
+  const handleOpenPreviewPopup = (p: JourneyProps) => {
+    setPreviewPopupIsOpen(true)
+    setJourneyPopup(p)
+  }
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-2">
@@ -66,14 +66,14 @@ const MyJourney = () => {
         isOpen={addJourneyPopupIsOpen}
         onClose={() => setAddJourneyPopupIsOpen(false)}
       >
-        <AddJourneyPopup closePopup={() => setAddJourneyPopupIsOpen(false)}/>
+        <AddJourneyPopup closePopup={() => setAddJourneyPopupIsOpen(false)} />
       </Popup>
 
       <Popup
         isOpen={editJourneyPopupIsOpen}
         onClose={() => setEditJourneyPopupIsOpen(false)}
       >
-        <EditJourneyPopup closePopup={() => setEditJourneyPopupIsOpen(false)} journey={journeyPopup}/>
+        <EditJourneyPopup closePopup={() => setEditJourneyPopupIsOpen(false)} journey={journeyPopup} />
       </Popup>
 
 
@@ -81,22 +81,22 @@ const MyJourney = () => {
         isOpen={deleteJourneyPopupIsOpen}
         onClose={() => setDeleteJourneyPopupIsOpen(false)}
       >
-        <DeleteJourneyPopup journey={journeyPopup} closePopup={() => setDeleteJourneyPopupIsOpen(false)}/>
+        <DeleteJourneyPopup journey={journeyPopup} closePopup={() => setDeleteJourneyPopupIsOpen(false)} />
       </Popup>
 
 
-      <Popup isOpen={previewPopupIsOpen} size="large" onClose={()=> setPreviewPopupIsOpen(false)}>
-              <JourneyPreviewPopup journey={journeyPopup} />
+      <Popup isOpen={previewPopupIsOpen} size="large" onClose={() => setPreviewPopupIsOpen(false)}>
+        <JourneyPreviewPopup journey={journeyPopup} />
       </Popup>
 
 
       <div className="grid grid-cols md:grid-cols-2 gap-2 mt-4">
-              {isLoading ? Array.from({length : 6}).map((_ , i)=><JourneySkeleton key={i}/>) : 
-              journeys.length === 0 ? <p>No Experience yet</p> : journeys.map((j : JourneyProps)=> 
-              <JourneyCard journey={j} key={j?._id}
-              onDelete={()=> handleOpenDeleteJourneyPopup(j)} 
-              onUpdate={()=> handleOpenEditJourneyPopup(j)}
-              onPreview={()=> handleOpenPreviewPopup(j)}/>)}
+        {isLoading ? Array.from({ length: 6 }).map((_, i) => <JourneySkeleton key={i} />) :
+          journeys.length === 0 ? <p>No Experience yet</p> : journeys.map((j: JourneyProps) =>
+            <JourneyCard journey={j} key={j?._id}
+              onDelete={() => handleOpenDeleteJourneyPopup(j)}
+              onUpdate={() => handleOpenEditJourneyPopup(j)}
+              onPreview={() => handleOpenPreviewPopup(j)} />)}
       </div>
     </div>
   );
