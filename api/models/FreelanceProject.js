@@ -3,11 +3,11 @@ import { model, Schema } from "mongoose";
 const FreelanceProjectSchema = Schema({
     client : {
         name : {type : String , required : true} ,
-        email : {type : String , required : true} ,
+        email : {type : String , required : true , unique : true} ,
         phone : {type : String , required : true} ,
     } ,
     project_name : {type : String , required : true} ,
-    description : {type : String , required : true} ,
+    description : String ,
     status: {
       type: String,
       required: true,

@@ -39,28 +39,51 @@ export const journeyFormater = (j) => {
 };
 
 
-export const taskFormater = (t)=>{
+export const taskFormater = (t) => {
   return {
-    _id : t?.id ,
-    title : t?.title || "",
-    content : t?.content || "",
-    status : t?.status || "",
-    priority : t?.priority || "",
-    date : t?.date || new Date(),
+    _id: t?.id,
+    title: t?.title || "",
+    content: t?.content || "",
+    status: t?.status || "",
+    priority: t?.priority || "",
+    date: t?.date || new Date(),
     createdAt: t?.createdAt || new Date(),
     updatedAt: t?.updatedAt || new Date(),
   }
 }
 
-export const profileFormater = (p)=>{
+export const profileFormater = (p) => {
   return {
-    _id: p?._id, 
-    email : p?.email ,
-    github : p?.github , 
-    instagram : p?.instagram ,  
-    linkedin : p?.linkedin , 
-    location : p?.location , 
-    whatsapp : p?.whatsapp , 
-    resume : p?.resume , 
+    _id: p?._id,
+    email: p?.email || "",
+    github: p?.github || "",
+    instagram: p?.instagram || "",
+    linkedin: p?.linkedin || "",
+    location: p?.location || "",
+    whatsapp: p?.whatsapp || "",
+    resume: p?.resume || "",
+    createdAt: p?.createdAt || new Date(),
+    updatedAt: p?.updatedAt || new Date(),
+  }
+}
+
+
+export const freelanceProjectFormater = (p) => {
+  const { name, email, phone } = p.client
+  return {
+    _id: p?.id,
+    client: {
+      name: name || "",
+      email: email || "",
+      phone: phone || ""
+    },
+    project_name: p?.project_name || "",
+    status: p?.status || "",
+    start_date: p?.start_date || "",
+    deadline: p?.deadline || "",
+    description: p?.description || "",
+    docs: p?.docs || [],
+    createdAt: p?.createdAt || new Date(),
+    updatedAt: p?.updatedAt || new Date(),
   }
 }

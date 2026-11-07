@@ -44,7 +44,6 @@ export const addJourney = async (req, res) => {
       ...(org && { org }),
       ...(org_link && { org_link }),
     });
-    console.log(journey);
 
     return res.json({ journey: journeyFormater(journey) });
   } catch (err) {
