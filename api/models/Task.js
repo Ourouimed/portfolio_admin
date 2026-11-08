@@ -8,17 +8,22 @@ const taskSchema = Schema(
     status: {
       type: String,
       required: true,
-      enum: ["Todo", "Doing" , "Done"],
+      enum: ["Todo", "Doing", "Done"],
       default: "Todo",
     },
     priority: {
       type: String,
       required: true,
-      enum: ["Low", "Medium" , "High"],
+      enum: ["Low", "Medium", "High"],
       default: "Medium",
     },
+    project: {
+      type: Schema.Types.ObjectId,
+      ref: "FreelanceProject",
+      default : null
+    }
   },
   { timestamps: true },
 );
 
-export default model("tasks", taskSchema);
+export default model("Task", taskSchema);

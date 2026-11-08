@@ -13,9 +13,6 @@ dist-ssr
 *.local
 .env 
 
-/*.test.tsx 
-
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

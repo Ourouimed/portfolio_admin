@@ -46,6 +46,7 @@ export const taskFormater = (t) => {
     content: t?.content || "",
     status: t?.status || "",
     priority: t?.priority || "",
+    project: t?.project || "",
     date: t?.date || new Date(),
     createdAt: t?.createdAt || new Date(),
     updatedAt: t?.updatedAt || new Date(),
@@ -83,6 +84,7 @@ export const freelanceProjectFormater = (p) => {
     deadline: p?.deadline || "",
     description: p?.description || "",
     docs: p?.docs || [],
+    tasks: p?.tasks || [],
     createdAt: p?.createdAt || new Date(),
     updatedAt: p?.updatedAt || new Date(),
   }

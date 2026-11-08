@@ -9,8 +9,6 @@ import ProfilePage from "./pages/ProfilePage";
 import Portfolio from "./pages/Portfolio";
 import Freelancing from "./pages/Freelancing";
 import FreelanceProjectPage from "./pages/FreelanceProjectPage";
-import ProjectsListPage from "./pages/test2.test";
-import ProjectDetailsPage from "./pages/test1.test";
 
 export const router = createBrowserRouter([
     {
@@ -50,14 +48,6 @@ export const router = createBrowserRouter([
                 element : <FreelanceProjectPage/>
             }
         ]
-    },
-    {
-        path : "/test" ,
-        element : <ProjectDetailsPage/>
-    },
-    {
-        path : "/test2" ,
-        element : <ProjectsListPage/>
     },
     {
         path : "*" ,
