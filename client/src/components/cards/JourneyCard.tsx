@@ -1,6 +1,6 @@
 import { Calendar, MapPinIcon, Pencil, Trash2 } from "lucide-react";
 import type { JourneyCardProps } from "../../interfaces/journeyProps";
-import { formatDate } from "../../lib/date-formaters";
+import { formatDateTime } from "../../lib/date-formaters";
 
 export default function JourneyCard({
   journey,
@@ -39,7 +39,7 @@ export default function JourneyCard({
       <div className="text-xs text-gray-400">
         <span>
           last update :{" "}
-          {journey?.updatedAt ? formatDate(journey?.updatedAt) : "N/A"}
+          {journey?.updatedAt ? formatDateTime(journey?.updatedAt) : "N/A"}
         </span>
       </div>
 

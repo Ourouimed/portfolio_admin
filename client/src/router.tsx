@@ -8,8 +8,9 @@ import TodoList from "./pages/TodoList";
 import ProfilePage from "./pages/ProfilePage";
 import Portfolio from "./pages/Portfolio";
 import Freelancing from "./pages/Freelancing";
-import ProjectDetailsPage from "./pages/Test";
-import ProjectsListPage from "./pages/Test2";
+import FreelanceProjectPage from "./pages/FreelanceProjectPage";
+import ProjectsListPage from "./pages/test2.test";
+import ProjectDetailsPage from "./pages/test1.test";
 
 export const router = createBrowserRouter([
     {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
             {
                 path : "freelancing" ,
                 element : <Freelancing/>
+            },
+            {
+                path : "freelancing/project/:id" ,
+                element : <FreelanceProjectPage/>
             }
         ]
     },

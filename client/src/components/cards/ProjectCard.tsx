@@ -1,7 +1,7 @@
 import { Code, Eye, Pencil, Trash2 } from "lucide-react";
 import type { ProjectCardProps } from "../../interfaces/projectProps";
 import { Button } from "../ui/Button";
-import { formatDate } from "../../lib/date-formaters";
+import { formatDateTime } from "../../lib/date-formaters";
 
 export const ProjectCard = ({ project, onPreview, onUpdate, onDelete }: ProjectCardProps) => {
   return (
@@ -58,7 +58,7 @@ export const ProjectCard = ({ project, onPreview, onUpdate, onDelete }: ProjectC
         {/* Admin Action Buttons & Last Update Timestamp */}
         <div className="flex justify-between items-center pt-1 text-xs text-gray-500">
           <span>
-            last update : {project?.updatedAt ? formatDate(project?.updatedAt) : "N/A"}
+            last update : {project?.updatedAt ? formatDateTime(project?.updatedAt) : "N/A"}
           </span>
           
           {(onUpdate || onDelete) && (

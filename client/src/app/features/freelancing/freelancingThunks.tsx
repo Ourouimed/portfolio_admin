@@ -21,3 +21,24 @@ export const getFreelanceProjects = createAsyncThunk('freelancing/get' , async (
     return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
   }
 })
+
+
+export const deleteFreelanceProject = createAsyncThunk('task/delete' , async (id : string, thunkAPI)=>{
+  try {
+    return await freelancingService.deleteFreelanceProject(id);
+  }
+  catch (err: any){
+    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+  }
+})
+
+
+
+export const editFreelanceProject = createAsyncThunk('task/edit' , async (data : { data : FreelanceProject , _id : string}, thunkAPI)=>{
+  try {
+    return await freelancingService.editFreelanceProject(data.data , data._id)
+  }
+  catch (err: any){
+    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+  }
+})

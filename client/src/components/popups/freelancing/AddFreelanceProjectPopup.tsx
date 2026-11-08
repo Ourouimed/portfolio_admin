@@ -1,5 +1,4 @@
 import { useState, type ChangeEvent } from "react"
-import type { FreelanceProjectProps } from "../../../interfaces/freelancingProps"
 import { Input } from "../../ui/Input"
 import { TextArea } from "../../ui/Textarea"
 import { Select } from "../../ui/Select"
@@ -9,6 +8,7 @@ import { useToast } from "../../../hooks/useToast"
 import { useFreelancing } from "../../../hooks/useFreelancing"
 import { addFreelanceProject } from "../../../app/features/freelancing/freelancingThunks"
 import { Loader2 } from "lucide-react"
+import type { FreelanceProject } from "../../../app/features/freelancing/freelancingTypes"
 
 export const AddFreelanceProjectPopup = ({ closePopup }: any) => {
     interface FormErrors {
@@ -24,7 +24,7 @@ export const AddFreelanceProjectPopup = ({ closePopup }: any) => {
         deadline?: string
     }
 
-    const [freelanceProject, setFreelanceProject] = useState<FreelanceProjectProps>({
+    const [freelanceProject, setFreelanceProject] = useState<FreelanceProject>({
         client: {
             name: "",
             email: "",

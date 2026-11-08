@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { Input } from "../../ui/Input";
 import { TextArea } from "../../ui/Textarea";
 import { Button } from "../../ui/Button";
@@ -8,14 +8,10 @@ import { editTask } from "../../../app/features/tasks/taskThunks";
 import { useToast } from "../../../hooks/useToast";
 import { useAppDispatch } from "../../../app/hooks";
 import { Select } from "../../ui/Select";
+import type { Task } from "../../../app/features/tasks/taskTypes";
+import { getFreelanceProjects } from "../../../app/features/freelancing/freelancingThunks";
+import { useFreelancing } from "../../../hooks/useFreelancing";
 
-interface TaskInfo {
-  title: string;
-  content: string;
-  date: string;
-  status: "Todo" | "Doing" | "Done"
-  priority: "Low" | "Medium" | "High"
-}
 
 interface FormErrors {
   title?: string;
@@ -26,26 +22,38 @@ interface FormErrors {
 }
 export const EditTaskPopup = ({ closePopup, task }: any) => {
   const [errors, setErrors] = useState<FormErrors>({});
-  const [taskInfo, setTaskInfo] = useState<TaskInfo>({
+  const [taskInfo, setTaskInfo] = useState<Task>({
     title: task?.title || "",
     content: task?.content || "",
     date: new Date(task?.date).toISOString().slice(0, 16) || "",
-    status: task?.status || "",
-    priority: task?.priority || ""
+    status: task?.status || "Todo",
+    priority: task?.priority || "Medium",
+    project: task?.project || ""
   });
 
 
 
   const dispatch = useAppDispatch();
   const toast = useToast();
-  const { isLoading } = useTask();
+  const { isLoading: taskIsLoading } = useTask();
+  const { isLoading: freelanceIsLoading, freelanceProjects } = useFreelancing()
+
+
+  useEffect(() => {
+    dispatch(getFreelanceProjects())
+  }, [])
+
+
+  const formatedProjects = useMemo(() => {
+    return ["None", ...freelanceProjects.map((p: any) => ({ key: p._id, value: p.project_name }))]
+  }, freelanceProjects)
+
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { id, value } = e.target;
     setTaskInfo((prev) => ({ ...prev, [id]: value }));
-    console.log(taskInfo)
   };
 
   const validate = (): boolean => {
@@ -99,6 +107,22 @@ export const EditTaskPopup = ({ closePopup, task }: any) => {
         {errors.title && <p className="text-red-500 text-[10px]">{errors.title}</p>}
       </div>
 
+
+      {/* Project field */}
+      {freelanceIsLoading && freelanceProjects.length === 0 ? <p>Loading projects ....</p> :
+        <div className="space-y-2">
+          <label htmlFor="project" className="block font-semibold text-sm">
+            Project
+          </label>
+          <Select value={taskInfo.project ?? ""}
+            options={formatedProjects}
+            onChange={(e) =>
+              setTaskInfo((p: any) => ({ ...p, project: e.target.value }))
+            }
+          />
+        </div>
+      }
+
       {/* Task date Field */}
       <div className="space-y-2">
         <label htmlFor="date" className="block font-semibold text-sm">
@@ -108,7 +132,7 @@ export const EditTaskPopup = ({ closePopup, task }: any) => {
           type="datetime-local"
           id="date"
           onChange={handleChange}
-          value={taskInfo.date}
+          value={taskInfo.date ?? ""}
           className={errors.date ? "border-red-500 focus:ring-red-500" : ""}
         />
         {errors.date && <p className="text-red-500 text-[10px]">{errors.date}</p>}
@@ -165,10 +189,10 @@ export const EditTaskPopup = ({ closePopup, task }: any) => {
           Cancel
         </Button>
         <Button
-          disabled={isLoading}
+          disabled={taskIsLoading}
           onClick={handleEditTask}
         >
-          {isLoading ? <Loader2 className="animate-spin" /> : "Save task"}
+          {taskIsLoading ? <Loader2 className="animate-spin" /> : "Save task"}
         </Button>
       </div>
     </div>

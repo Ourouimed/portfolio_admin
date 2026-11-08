@@ -1,6 +1,6 @@
 import { ChevronRight, Edit, Trash2 } from "lucide-react";
 import type { TaskCardProps } from "../../interfaces/tasksProps";
-import { formatDate } from "../../lib/date-formaters";
+import { formatDateTime } from "../../lib/date-formaters";
 import { useAppDispatch } from "../../app/hooks";
 import { useToast } from "../../hooks/useToast";
 import { changeTaskStatus } from "../../app/features/tasks/taskThunks";
@@ -29,7 +29,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }: TaskCardProps) => {
       </button>
     </div>
     <p className="text-xs text-gray-700">
-      {formatDate(task?.date)}
+      {formatDateTime(task?.date)}
     </p>
     <div className="flex items-center gap-2 justify-between">
       <span className={`rounded-full text-xs ${task?.priority === "High" ? "bg-red-500/10 text-red-500" :

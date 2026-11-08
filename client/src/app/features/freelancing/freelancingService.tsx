@@ -12,6 +12,17 @@ const getFreelanceProjects = async ()=>{
 }
 
 
+const deleteFreelanceProject = async (id : string)=>{
+    const respone = await axiosService.delete(`/api/freelancing/project/${id}`);
+    return respone.data
+}
 
-const freelancingService = { addFreelanceProject , getFreelanceProjects}
+const editFreelanceProject = async (data : FreelanceProject , _id : string) => {
+    const respone = await axiosService.put(`/api/freelancing/project/${_id}` , data)
+    return respone.data
+}
+
+
+
+const freelancingService = { addFreelanceProject , getFreelanceProjects , deleteFreelanceProject , editFreelanceProject}
 export default freelancingService

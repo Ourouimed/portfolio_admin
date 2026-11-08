@@ -2,8 +2,12 @@ export interface Task {
   _id?: string
   title: string;
   content: string;
-  date: Date | null | string;
+  status: "Todo" | "Doing" | "Done"
+  priority: "Low" | "Medium" | "High"
+  project: string | null
+  date: string;
 }
+
 
 
 export interface TaskState {
