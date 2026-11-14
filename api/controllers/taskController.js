@@ -6,7 +6,6 @@ export const addTask = async (req, res) => {
   try {
     const { title, content, date, status, priority, project } = req.body;
 
-
     if (!title || !content || !date || !status || !priority)
       return res.status(400).json({
         error: "Missing some required fields",

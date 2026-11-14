@@ -3,7 +3,7 @@ import { model, Schema } from "mongoose";
 const FreelanceProjectSchema = Schema({
     client: {
         name: { type: String, required: true },
-        email: { type: String, required: true,},
+        email: { type: String, required: true },
         phone: { type: String, required: true },
     },
     project_name: { type: String, required: true },
@@ -20,12 +20,18 @@ const FreelanceProjectSchema = Schema({
         {
             url: { type: String, required: true },
             title: { type: String, required: true },
-        }
+        },
     ],
     tasks: [
         {
             type: Schema.Types.ObjectId,
             ref: "Task",
+        }
+    ],
+    invoices : [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Invoice",
         }
     ]
 }, { timestamps: true })

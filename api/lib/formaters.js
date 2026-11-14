@@ -41,7 +41,7 @@ export const journeyFormater = (j) => {
 
 export const taskFormater = (t) => {
   return {
-    _id: t?.id,
+    _id: t?._id,
     title: t?.title || "",
     content: t?.content || "",
     status: t?.status || "",
@@ -72,7 +72,7 @@ export const profileFormater = (p) => {
 export const freelanceProjectFormater = (p) => {
   const { name, email, phone } = p.client
   return {
-    _id: p?.id,
+    _id: p?._id,
     client: {
       name: name || "",
       email: email || "",
@@ -88,4 +88,20 @@ export const freelanceProjectFormater = (p) => {
     createdAt: p?.createdAt || new Date(),
     updatedAt: p?.updatedAt || new Date(),
   }
+}
+
+export const invoiceFormater = (i) => {
+  return {
+    _id : i?._id , 
+    project: i?.project || null,
+    total: i?.total || 0,
+    status : i?.status || "Sent",
+    currency: i?.currency || "MAD",
+    issue_date: i?.issue_date || "",
+    due_date: i?.due_date || "",
+    items: i?.items || [],
+    payments: i?.payments || [],
+    createdAt: i?.createdAt || new Date(),
+    updatedAt: i?.updatedAt || new Date(),
+  } 
 }

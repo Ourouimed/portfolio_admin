@@ -68,7 +68,6 @@ export const addFreelanceProject = async (req, res) => {
             client: { name, email, phone },
             client, project_name, status, start_date, deadline,
             ...(description && { description }),
-
         })
 
         return res.json({ freelanceProject: freelanceProjectFormater(freelanceProject) });
