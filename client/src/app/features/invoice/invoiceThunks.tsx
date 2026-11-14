@@ -7,8 +7,8 @@ export const addInvoice = createAsyncThunk('invoice/add' , async (data : Invoice
     return await invoiceService.addInvoice(data)
   }
   catch (err: any){
-    console.log(err)
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -18,7 +18,8 @@ export const getInvoices = createAsyncThunk('invoice/get' , async (_, thunkAPI)=
     return await invoiceService.getInvoices()
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 

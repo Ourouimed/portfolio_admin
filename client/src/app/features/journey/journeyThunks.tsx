@@ -7,7 +7,8 @@ export const getJourney = createAsyncThunk('journey/get' , async (_, thunkAPI)=>
     return await journeyService.getJourney()
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -17,7 +18,8 @@ export const addJourney = createAsyncThunk('journey/add' , async (data : Journey
     return await journeyService.addJourney(data)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -28,7 +30,8 @@ export const deleteJourney = createAsyncThunk('journey/delete' , async (id : str
     return await journeyService.deleteJourney(id)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -39,6 +42,7 @@ export const editJourney = createAsyncThunk('project/edit' , async (data : { dat
     return await journeyService.editJourney(data.data , data._id)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })

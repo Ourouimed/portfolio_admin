@@ -7,7 +7,8 @@ export const addTask = createAsyncThunk('task/add' , async (data : Task, thunkAP
     return await taskService.addTask(data)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -16,7 +17,8 @@ export const changeTaskStatus = createAsyncThunk('task/changeStatus' , async (id
     return await taskService.changeStatus(id)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -26,7 +28,8 @@ export const getTasks = createAsyncThunk('task/get' , async (_, thunkAPI)=>{
     return await taskService.getTasks()
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -36,7 +39,8 @@ export const deleteTask = createAsyncThunk('task/delete' , async (id : string, t
     return await taskService.deleteTask(id)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -47,6 +51,7 @@ export const editTask = createAsyncThunk('task/edit' , async (data : { data : Ta
     return await taskService.editTask(data.data , data._id)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })

@@ -18,7 +18,8 @@ export const getFreelanceProjects = createAsyncThunk('freelancing/get' , async (
     return await freelancingService.getFreelanceProjects()
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -28,7 +29,8 @@ export const deleteFreelanceProject = createAsyncThunk('task/delete' , async (id
     return await freelancingService.deleteFreelanceProject(id);
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -39,6 +41,7 @@ export const editFreelanceProject = createAsyncThunk('task/edit' , async (data :
     return await freelancingService.editFreelanceProject(data.data , data._id)
   }
   catch (err: any){
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    console.log(err?.response?.data)
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })

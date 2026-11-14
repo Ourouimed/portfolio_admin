@@ -9,16 +9,16 @@ import { addInvoice } from "../../../app/features/invoice/invoiceThunks";
 import { Loader2 } from "lucide-react";
 import { useInvoice } from "../../../hooks/useInvoice";
 
-export const AddInvoicePopup = ({ closePopup , freelanceProjects }: any) => {
+export const AddInvoicePopup = ({ closePopup, freelanceProjects }: any) => {
 
     const dispatch = useAppDispatch();
     const toast = useToast();
-    const { isLoading : invoiceIsLoading} = useInvoice()
+    const { isLoading: invoiceIsLoading } = useInvoice()
 
     const [errors, setErrors] = useState<InvoiceFormErrors>({})
     const [invoiceData, setInvoiceData] = useState<Invoice>({
         project: null,
-        title : "",
+        title: "",
         currency: "MAD",
         issue_date: new Date().toISOString().slice(0, 10) || "",
         due_date: (() => {
@@ -199,7 +199,7 @@ export const AddInvoicePopup = ({ closePopup , freelanceProjects }: any) => {
                 <label htmlFor="title" className="block font-semibold text-sm">
                     Title
                 </label>
-                <Input id="title" value={invoiceData.title ?? ""} onChange={handleChange} placeholder="Invoice title here"/>
+                <Input id="title" value={invoiceData.title ?? ""} onChange={handleChange} placeholder="Invoice title here" />
                 {errors.title && (
                     <p className="text-red-500 text-[10px]">{errors.title}</p>
                 )}
