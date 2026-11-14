@@ -9,6 +9,13 @@ export interface Task {
 }
 
 
+export interface TaskFormErrors {
+  title?: string;
+  content?: string;
+  date?: string;
+  status?: string
+  priority?: string
+}
 
 export interface TaskState {
     tasks : Task[] ,

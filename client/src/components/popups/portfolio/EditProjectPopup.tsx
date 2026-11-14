@@ -8,35 +8,19 @@ import { useToast } from "../../../hooks/useToast";
 import { useProject } from "../../../hooks/useProject";
 import { editProject } from "../../../app/features/project/projectThunks";
 import { isValidUrl } from "../../../lib/validators";
+import type { Project, ProjectFormErrors } from "../../../app/features/project/projectTypes";
 
 
 
 
 
-interface ProjectInfo {
-    _id?: string
-    image: File | null;
-    imageUrl: string;
-    name: string;
-    preview: string;
-    source: string;
-    description: string;
-    tech: string[];
-}
 
-interface FormErrors {
-    image?: string;
-    name?: string;
-    description?: string;
-    tech?: string;
-    preview?: string
-    source?: string
-}
+
 
 
 
 export const EditProjectPopup = ({ closePopup, project }: any) => {
-    const [projectInfo, setProjectInfo] = useState<ProjectInfo>({
+    const [projectInfo, setProjectInfo] = useState<Project>({
         image: null,
         imageUrl: project?.image || "",
         name: project?.name || "",
@@ -47,7 +31,7 @@ export const EditProjectPopup = ({ closePopup, project }: any) => {
     })
 
     const [techInput, setTechInput] = useState("")
-    const [errors, setErrors] = useState<FormErrors>({});
+    const [errors, setErrors] = useState<ProjectFormErrors>({});
 
     const dispatch = useAppDispatch()
     const toast = useToast()
@@ -57,7 +41,7 @@ export const EditProjectPopup = ({ closePopup, project }: any) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
         setProjectInfo((prev) => ({ ...prev, [id]: value }));
-        if (errors[id as keyof FormErrors]) {
+        if (errors[id as keyof ProjectFormErrors]) {
             setErrors(prev => ({ ...prev, [id]: undefined }))
         }
     };
@@ -98,7 +82,7 @@ export const EditProjectPopup = ({ closePopup, project }: any) => {
 
 
     const validate = (): boolean => {
-        const tempErrors: FormErrors = {};
+        const tempErrors: ProjectFormErrors = {};
 
 
         if (projectInfo.source && !isValidUrl(projectInfo.source)) tempErrors.source = "Unvalid url"

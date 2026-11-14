@@ -5,6 +5,7 @@ import projectReducer  from "./features/project/projectSlice"
 import journeyReducer  from "./features/journey/journeySlice"
 import taskReducer  from "./features/tasks/taskSlice"
 import freelancingReducer  from "./features/freelancing/freelancingSlice"
+import invoiceReducer from "./features/invoice/invoiceSlice"
 
 export const store = configureStore({
     reducer : {
@@ -13,7 +14,8 @@ export const store = configureStore({
         project : projectReducer ,
         journey : journeyReducer ,
         task : taskReducer ,
-        freelancing : freelancingReducer
+        freelancing : freelancingReducer ,
+        invoice : invoiceReducer
     }
 })
 

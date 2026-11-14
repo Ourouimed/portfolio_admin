@@ -9,17 +9,9 @@ import { Button } from "../../ui/Button";
 import { Loader2 } from "lucide-react";
 import { addJourney } from "../../../app/features/journey/journeyThunks";
 import { TextArea } from "../../ui/Textarea";
+import type { JourneyFormErrors } from "../../../app/features/journey/journeyTypes";
 
-interface FormErrors {
-  title?: string;
-  org?: string;
-  start_date?: string;
-  end_date?: string;
-  type?: string;
-  location?: string;
-  org_link?: string;
-  description?: string;
-}
+
 export const AddJourneyPopup = ({ closePopup }: any) => {
   const [journeyInfo, setJourneyInfo] = useState<JourneyProps>({
     title: "",
@@ -31,7 +23,7 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
     location: "",
     description: "",
   });
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [errors, setErrors] = useState<JourneyFormErrors>({});
 
   const dispatch = useAppDispatch();
   const toast = useToast();
@@ -50,7 +42,7 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
   };
 
   const validate = (): boolean => {
-    const tempErrors: FormErrors = {};
+    const tempErrors: JourneyFormErrors = {};
     if (!journeyInfo.title.trim())
       tempErrors.title = "Journey title is required";
     if (!journeyInfo.type.trim()) tempErrors.type = "Journey type is required";
@@ -70,7 +62,7 @@ export const AddJourneyPopup = ({ closePopup }: any) => {
   ) => {
     const { id, value } = e.target;
     setJourneyInfo((prev) => ({ ...prev, [id]: value }));
-    if (errors[id as keyof FormErrors]) {
+    if (errors[id as keyof JourneyFormErrors]) {
       setErrors((prev) => ({ ...prev, [id]: undefined }));
     }
   };

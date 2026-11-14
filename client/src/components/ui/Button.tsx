@@ -11,8 +11,8 @@ export const Button = ({
 }: BtnProps) => {
     
     const VARIANTS: Record<string, string> = {
-        "DEFAULT": "bg-black text-white",
-        "DESTRUCTIVE": "bg-red-500 text-white" ,
+        "DEFAULT": "bg-black text-white border-black",
+        "DESTRUCTIVE": "bg-red-500 text-white border-red-500" ,
         "OUTLINE": "bg-transparent text-black border-gray-300"
     }
 

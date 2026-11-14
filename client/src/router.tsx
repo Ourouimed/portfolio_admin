@@ -9,6 +9,7 @@ import ProfilePage from "./pages/ProfilePage";
 import Portfolio from "./pages/Portfolio";
 import Freelancing from "./pages/Freelancing";
 import FreelanceProjectPage from "./pages/FreelanceProjectPage";
+import InvoicesPage from "./pages/InvoicesPage";
 
 export const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path : "freelancing/project/:id" ,
                 element : <FreelanceProjectPage/>
+            },
+            {
+                path : "invoices" ,
+                element : <InvoicesPage/>
             }
         ]
     },

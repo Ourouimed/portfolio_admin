@@ -11,11 +11,14 @@ import type { TaskProps } from "../interfaces/tasksProps";
 import { TaskCard } from "../components/cards/TaskCard";
 import { DeleteTaskPopup } from "../components/popups/tasks/DeleteTaskPopup";
 import { EditTaskPopup } from "../components/popups/tasks/EditTaskPopup";
+import { getFreelanceProjects } from "../app/features/freelancing/freelancingThunks";
+import { useFreelancing } from "../hooks/useFreelancing";
 
 
 const TodoList = () => {
   const dispatch = useAppDispatch();
   const { tasks, isLoading } = useTask();
+  const { freelanceProjects , isLoading : freelanceIsLoading } = useFreelancing()
 
   // popup task
   const [popupTask, setPopupTask] = useState<TaskProps | null>(null);
@@ -37,6 +40,7 @@ const TodoList = () => {
 
   useEffect(() => {
     dispatch(getTasks());
+    dispatch(getFreelanceProjects())
   }, [dispatch]);
 
   const handleOpenEditTaskPopup = (t: TaskProps) => {
@@ -69,29 +73,34 @@ const TodoList = () => {
       </div>
 
       <Popup isOpen={addPopupIsOpen} onClose={() => setAddPopupIsOpen(false)}>
-        <AddTaskPopup closePopup={() => setAddPopupIsOpen(false)} />
+        <AddTaskPopup closePopup={() => setAddPopupIsOpen(false)} freelanceProjects={freelanceProjects} />
       </Popup>
 
-      <Popup
-        isOpen={deletePopupIsOpen}
-        onClose={() => setDeletePopupIsOpen(false)}
-      >
-        <DeleteTaskPopup
-          task={popupTask}
-          closePopup={() => setDeletePopupIsOpen(false)}
-        />
-      </Popup>
+      {(!freelanceIsLoading && Array.isArray(freelanceProjects)) &&
+        <Popup
+          isOpen={deletePopupIsOpen}
+          onClose={() => setDeletePopupIsOpen(false)}
+        >
+          <DeleteTaskPopup
+            task={popupTask}
+            closePopup={() => setDeletePopupIsOpen(false)}
+          />
+        </Popup>
+      }
 
 
-      <Popup
-        isOpen={editPopupIsOpen}
-        onClose={() => setEditPopupIsOpen(false)}
-      >
-        <EditTaskPopup
-          task={popupTask}
-          closePopup={() => setEditPopupIsOpen(false)}
-        />
-      </Popup>
+      {(!freelanceIsLoading && Array.isArray(freelanceProjects)) &&
+        <Popup
+          isOpen={editPopupIsOpen}
+          onClose={() => setEditPopupIsOpen(false)}
+        >
+          <EditTaskPopup
+            freelanceProjects={freelanceProjects}
+            task={popupTask}
+            closePopup={() => setEditPopupIsOpen(false)}
+          />
+        </Popup>
+      }
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-4">
         {/* Todo */}

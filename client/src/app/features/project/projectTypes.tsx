@@ -1,13 +1,27 @@
 export interface Project {
-  image: File | string;
-  _id? : string
+  _id?: string
+  image: File | null;
+  imageUrl: string;
   name: string;
-  description: string; 
-  preview? : string
-  source? : string
+  preview: string;
+  source: string;
+  description: string;
   tech: string[];
 }
-export interface ProjectState {
-    isLoading : boolean ,
-    projects : Project[],
+
+export interface ProjectFormErrors {
+  image?: string;
+  name?: string;
+  description?: string;
+  tech?: string;
+  preview?: string
+  source?: string
 }
+
+
+export interface ProjectState {
+  isLoading: boolean,
+  projects: Project[],
+}
+
+

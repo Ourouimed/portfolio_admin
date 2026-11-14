@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import { useMemo, useState, type ChangeEvent } from "react";
 import { Input } from "../../ui/Input";
 import { TextArea } from "../../ui/Textarea";
 import { Button } from "../../ui/Button";
@@ -8,20 +8,12 @@ import { editTask } from "../../../app/features/tasks/taskThunks";
 import { useToast } from "../../../hooks/useToast";
 import { useAppDispatch } from "../../../app/hooks";
 import { Select } from "../../ui/Select";
-import type { Task } from "../../../app/features/tasks/taskTypes";
-import { getFreelanceProjects } from "../../../app/features/freelancing/freelancingThunks";
-import { useFreelancing } from "../../../hooks/useFreelancing";
+import type { Task, TaskFormErrors } from "../../../app/features/tasks/taskTypes";
 
 
-interface FormErrors {
-  title?: string;
-  content?: string;
-  date?: string;
-  status?: string
-  priority?: string
-}
-export const EditTaskPopup = ({ closePopup, task }: any) => {
-  const [errors, setErrors] = useState<FormErrors>({});
+
+export const EditTaskPopup = ({ closePopup, task, freelanceProjects }: any) => {
+  const [errors, setErrors] = useState<TaskFormErrors>({});
   const [taskInfo, setTaskInfo] = useState<Task>({
     title: task?.title || "",
     content: task?.content || "",
@@ -36,16 +28,9 @@ export const EditTaskPopup = ({ closePopup, task }: any) => {
   const dispatch = useAppDispatch();
   const toast = useToast();
   const { isLoading: taskIsLoading } = useTask();
-  const { isLoading: freelanceIsLoading, freelanceProjects } = useFreelancing()
-
-
-  useEffect(() => {
-    dispatch(getFreelanceProjects())
-  }, [])
-
 
   const formatedProjects = useMemo(() => {
-    return ["None", ...freelanceProjects.map((p: any) => ({ key: p._id, value: p.project_name }))]
+    return ["None", ...freelanceProjects.map((p: any) => ({ value: p._id, label: p.project_name }))]
   }, freelanceProjects)
 
 
@@ -57,7 +42,7 @@ export const EditTaskPopup = ({ closePopup, task }: any) => {
   };
 
   const validate = (): boolean => {
-    const tempErrors: FormErrors = {};
+    const tempErrors: TaskFormErrors = {};
 
     if (!taskInfo.title.trim()) tempErrors.title = "Task title is required";
     if (!taskInfo.content.trim())
@@ -109,19 +94,18 @@ export const EditTaskPopup = ({ closePopup, task }: any) => {
 
 
       {/* Project field */}
-      {freelanceIsLoading && freelanceProjects.length === 0 ? <p>Loading projects ....</p> :
-        <div className="space-y-2">
-          <label htmlFor="project" className="block font-semibold text-sm">
-            Project
-          </label>
-          <Select value={taskInfo.project ?? ""}
-            options={formatedProjects}
-            onChange={(e) =>
-              setTaskInfo((p: any) => ({ ...p, project: e.target.value }))
-            }
-          />
-        </div>
-      }
+      <div className="space-y-2">
+        <label htmlFor="project" className="block font-semibold text-sm">
+          Project
+        </label>
+        <Select value={taskInfo.project ?? ""}
+          options={formatedProjects}
+          onChange={(e) =>
+            setTaskInfo((p: any) => ({ ...p, project: e.target.value }))
+          }
+        />
+      </div>
+
 
       {/* Task date Field */}
       <div className="space-y-2">

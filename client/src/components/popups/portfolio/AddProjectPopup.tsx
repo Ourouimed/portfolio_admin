@@ -8,31 +8,15 @@ import { useToast } from "../../../hooks/useToast";
 import { addProject } from "../../../app/features/project/projectThunks";
 import { useProject } from "../../../hooks/useProject";
 import { isValidUrl } from "../../../lib/validators";
+import type { Project, ProjectFormErrors } from "../../../app/features/project/projectTypes";
 
 
-interface ProjectInfo {
-    image: File | null;
-    imageUrl: string;
-    name: string;
-    preview: string;
-    source: string;
-    description: string;
-    tech: string[];
-}
 
-interface FormErrors {
-    image?: string;
-    name?: string;
-    description?: string;
-    tech?: string;
-    preview?: string
-    source?: string
-}
 
 
 
 export const AddProjectPopup = ({ closePopup }: any) => {
-    const [projectInfo, setProjectInfo] = useState<ProjectInfo>({
+    const [projectInfo, setProjectInfo] = useState<Project>({
         image: null,
         imageUrl: "",
         name: "",
@@ -43,7 +27,7 @@ export const AddProjectPopup = ({ closePopup }: any) => {
     })
 
     const [techInput, setTechInput] = useState("")
-    const [errors, setErrors] = useState<FormErrors>({});
+    const [errors, setErrors] = useState<ProjectFormErrors>({});
 
     const dispatch = useAppDispatch()
     const toast = useToast()
@@ -53,7 +37,7 @@ export const AddProjectPopup = ({ closePopup }: any) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
         setProjectInfo((prev) => ({ ...prev, [id]: value }));
-        if (errors[id as keyof FormErrors]) {
+        if (errors[id as keyof ProjectFormErrors]) {
             setErrors(prev => ({ ...prev, [id]: undefined }))
         }
     };
@@ -92,7 +76,7 @@ export const AddProjectPopup = ({ closePopup }: any) => {
     };
 
     const validate = (): boolean => {
-        const tempErrors: FormErrors = {};
+        const tempErrors: ProjectFormErrors = {};
         if (!projectInfo.image) tempErrors.image = "Product image is required";
         if (!projectInfo.name.trim()) tempErrors.name = "Project name is required";
         if (!projectInfo.description.trim()) tempErrors.description = "Description is required";

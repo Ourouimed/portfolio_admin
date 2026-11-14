@@ -8,21 +8,9 @@ import { useToast } from "../../../hooks/useToast"
 import { useFreelancing } from "../../../hooks/useFreelancing"
 import { addFreelanceProject } from "../../../app/features/freelancing/freelancingThunks"
 import { Loader2 } from "lucide-react"
-import type { FreelanceProject } from "../../../app/features/freelancing/freelancingTypes"
+import type { FreelanceProjectFormErrors, FreelanceProject } from "../../../app/features/freelancing/freelancingTypes"
 
 export const AddFreelanceProjectPopup = ({ closePopup }: any) => {
-    interface FormErrors {
-        client?: {
-            name?: string
-            email?: string
-            phone?: string
-        }
-        project_name?: string
-        description?: string
-        status?: string
-        start_date?: string
-        deadline?: string
-    }
 
     const [freelanceProject, setFreelanceProject] = useState<FreelanceProject>({
         client: {
@@ -35,11 +23,10 @@ export const AddFreelanceProjectPopup = ({ closePopup }: any) => {
         status: "Planning",
         start_date: "",
         deadline: "",
-        docs: [],
     });
 
     const projectStatus = ["Planning", "In progress", "Review", "Done", "Delivered"]
-    const [errors, setErrors] = useState<FormErrors>({});
+    const [errors, setErrors] = useState<FreelanceProjectFormErrors>({});
 
 
     const dispatch = useAppDispatch();
@@ -48,7 +35,7 @@ export const AddFreelanceProjectPopup = ({ closePopup }: any) => {
     const { isLoading } = useFreelancing();
 
     const validate = (): boolean => {
-        const tempErrors: FormErrors = {};
+        const tempErrors: FreelanceProjectFormErrors = {};
         // Validate client fields 
         if (!freelanceProject.client.name.trim())
             (tempErrors.client ??= {}).name = "Freelance client name is required";

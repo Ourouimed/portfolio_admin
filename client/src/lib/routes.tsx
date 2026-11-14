@@ -1,4 +1,4 @@
-import { Briefcase, CheckSquare, LayoutDashboard, Route, User, Users} from "lucide-react";
+import { Briefcase, CheckSquare, LayoutDashboard, Receipt, Route, User, Users} from "lucide-react";
 import type { MenuItem } from "../interfaces/menuItem";
 
 
@@ -32,6 +32,11 @@ export const routes : MenuItem[] = [
         url : "/freelancing",
         name : "Freelancing" ,
         icon : Users
+    },
+    {
+        url : "/invoices",
+        name : "Invoices" ,
+        icon : Receipt
     } 
 ] as const 
 

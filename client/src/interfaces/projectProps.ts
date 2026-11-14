@@ -1,4 +1,3 @@
-
 export interface ProjectProps  {
   _id? : string;
   image: string;
