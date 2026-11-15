@@ -2,18 +2,12 @@ import cloudinary from "../config/cloud.js";
 import { profileFormater } from "../lib/formaters.js";
 import { deleteFileByUrl, uploadFile } from "../lib/cloudinary-manage.js";
 import Profile from "../models/Profile.js"
+import profileService from "../services/profileService.js";
 
 
 export const saveProfile = async (req, res) => {
   try {
-    const {
-      email,
-      instagram,
-      linkedin,
-      github,
-      whatsapp,
-      location,
-    } = req.body;
+    const {email,instagram,linkedin,github,whatsapp,location,} = req.body;
 
     if (
       !email?.trim() ||
@@ -24,11 +18,11 @@ export const saveProfile = async (req, res) => {
       !location?.trim()
     ) {
       return res.status(400).json({
-        error: "Missing some required fields",
+        message : "Missing some required fields",
       });
     }
 
-    const existedProfile = await Profile.findOne();
+    const existedProfile = await profileService.getOne();
 
     const updateData = {
       email: email.trim(),
@@ -43,7 +37,7 @@ export const saveProfile = async (req, res) => {
     if (req.file) {
       if (req.file.mimetype !== "application/pdf") {
         return res.status(400).json({
-          error: "Resume must be a PDF file",
+          message : "Resume must be a PDF file",
         });
       }
 
@@ -59,13 +53,9 @@ export const saveProfile = async (req, res) => {
     let profile;
 
     if (existedProfile) {
-      profile = await Profile.findByIdAndUpdate(
-        existedProfile._id,
-        { $set: updateData },
-        { new: true, runValidators: true }
-      );
+      profile = await profileService.updateById(existedProfile._id , updateData)
     } else {
-      profile = await Profile.create(updateData);
+      profile = await profileService.create(updateData);
     }
 
     return res.json({ profile });
@@ -73,7 +63,7 @@ export const saveProfile = async (req, res) => {
     console.error(err);
 
     return res.status(500).json({
-      error: "Internal server error",
+      message: "Internal server error",
     });
   }
 };
@@ -82,14 +72,13 @@ export const saveProfile = async (req, res) => {
 
 export const getProfile = async (req, res) => {
   try {
-    const profile = await Profile.findOne()
-    console.log(profile)
+    const profile = await profileService.getOne()
 
     return res.json({
       profile : profileFormater(profile),
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };

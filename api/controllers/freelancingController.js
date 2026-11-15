@@ -1,15 +1,15 @@
 import { freelanceProjectFormater } from "../lib/formaters.js";
-import FreelanceProject from "../models/FreelanceProject.js"
+import freelanceService from "../services/freelanceService.js";
 
 export const addFreelanceProject = async (req, res) => {
     try {
-        const { client, project_name, description, status, start_date, deadline, docs = [] } = req.body
+        const { client, project_name, description, status, start_date, deadline} = req.body
         const { name, email, phone } = client
 
 
         if (!client || !project_name || !name || !email || !phone || !status || !start_date || !deadline) {
             return res.status(400).json({
-                error: "Missing some required fields",
+                message: "Missing some required fields",
             });
         }
 
@@ -17,7 +17,7 @@ export const addFreelanceProject = async (req, res) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.trim())) {
             return res.status(400).json({
-                error: "Invalid email format",
+                message: "Invalid email format",
             });
         }
 
@@ -29,12 +29,12 @@ export const addFreelanceProject = async (req, res) => {
 
             if (selectedDate <= now) {
                 return res.status(422).json({
-                    error: "Freelance Project date must be in the future"
+                    message: "Freelance Project date must be in the future"
                 });
             }
         } else {
             return res.status(400).json({
-                error: "Freelance Project date is required"
+                message: "Freelance Project date is required"
             });
         }
 
@@ -46,29 +46,25 @@ export const addFreelanceProject = async (req, res) => {
 
             if (selectedDate <= now) {
                 return res.status(422).json({
-                    error: "Freelance Project deadline must be in the future"
+                    message: "Freelance Project deadline must be in the future"
                 });
 
             }
 
             if (selectedDate <= startDate) {
                 return res.status(422).json({
-                    error: "Freelance Project deadline cannot before project starts"
+                    message: "Freelance Project deadline cannot before project starts"
                 });
             }
 
         } else {
             return res.status(400).json({
-                error: "Freelance Project deadline is required"
+                message: "Freelance Project deadline is required"
             });
         }
 
 
-        const freelanceProject = await FreelanceProject.create({
-            client: { name, email, phone },
-            client, project_name, status, start_date, deadline,
-            ...(description && { description }),
-        })
+        const freelanceProject = await freelanceService.create({ client, project_name, description, status, start_date, deadline})
 
         return res.json({ freelanceProject: freelanceProjectFormater(freelanceProject) });
 
@@ -76,23 +72,22 @@ export const addFreelanceProject = async (req, res) => {
 
     catch (err) {
         console.log(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
 
 export const getFreelanceProjects = async (req, res) => {
     try {
-        const freelanceProjects = await FreelanceProject.find().sort({ createdAt: -1 }).populate("tasks");
+        const freelanceProjects = await freelanceService.getAll()
 
         const formatedFreelanceProjects = freelanceProjects.map((p) => freelanceProjectFormater(p));
-        console.log(formatedFreelanceProjects)
         return res.json({
             freelanceProjects: formatedFreelanceProjects,
         });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -100,13 +95,13 @@ export const getFreelanceProjectById = async (req, res) => {
     try {
         const { id } = req.params
         if (!id) {
-            return res.status(400).json({ error: "Id is required" })
+            return res.status(400).json({ message : "Id is required" })
         }
 
-        const project = await FreelanceProject.findById(id).populate("tasks");
+        const project = await freelanceService.getById(id)
         if (!project) {
             return res.status(404).json({
-                error: "Project not found"
+                message : "Project not found"
             })
         }
 
@@ -118,7 +113,7 @@ export const getFreelanceProjectById = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -127,18 +122,18 @@ export const deleteFreelanceProject = async (req, res) => {
     try {
         const { id } = req.params
 
-        const task = await FreelanceProject.findById(id);
+        const task = await freelanceService.getById()
         if (!task) {
-            return res.status(404).json({ error: "Project not found" })
+            return res.status(404).json({ message: "Project not found" })
         }
 
 
-        await FreelanceProject.findByIdAndDelete(id);
+        await freelanceService.deleteById(id)
         return res.json({ message: "Task deleted successfully" })
     }
     catch (err) {
         console.log(err)
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }
 
@@ -146,7 +141,7 @@ export const deleteFreelanceProject = async (req, res) => {
 export const editFreelanceProject = async (req, res) => {
     try {
         const { id } = req.params;
-        const { client, project_name, description, status, start_date, deadline, docs = [] } = req.body
+        const { client, project_name, status, start_date, deadline} = req.body
         const { name, email, phone } = client
 
 
@@ -172,12 +167,12 @@ export const editFreelanceProject = async (req, res) => {
 
             if (selectedDate <= now) {
                 return res.status(422).json({
-                    error: "Freelance Project date must be in the future"
+                    message: "Freelance Project date must be in the future"
                 });
             }
         } else {
             return res.status(400).json({
-                error: "Freelance Project date is required"
+                message: "Freelance Project date is required"
             });
         }
 
@@ -189,34 +184,25 @@ export const editFreelanceProject = async (req, res) => {
 
             if (selectedDate <= now) {
                 return res.status(422).json({
-                    error: "Freelance Project deadline must be in the future"
+                    message: "Freelance Project deadline must be in the future"
                 });
 
             }
 
             if (selectedDate <= startDate) {
                 return res.status(422).json({
-                    error: "Freelance Project deadline cannot before project starts"
+                    message: "Freelance Project deadline cannot before project starts"
                 });
             }
 
         } else {
             return res.status(400).json({
-                error: "Freelance Project deadline is required"
+                message: "Freelance Project deadline is required"
             });
         }
 
 
-        const freelanceProject = await FreelanceProject.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    client: { name, email, phone },
-                    client, project_name, status, start_date, deadline, description
-                }
-            },
-            { new: true },
-        )
+        const freelanceProject = await freelanceService.updateById(id , req.body)
 
         return res.json({ freelanceProject: freelanceProjectFormater(freelanceProject) });
 
@@ -224,6 +210,6 @@ export const editFreelanceProject = async (req, res) => {
 
     catch (err) {
         console.log(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }

@@ -1,6 +1,6 @@
 import { invoiceFormater } from "../lib/formaters.js";
-import FreelanceProject from "../models/FreelanceProject.js";
-import Invoice from "../models/Invoice.js";
+import freelanceService from "../services/freelanceService.js";
+import invoiceService from "../services/invoiceService.js";
 
 export const addInvoice = async (req, res) => {
     try {
@@ -8,13 +8,13 @@ export const addInvoice = async (req, res) => {
 
         if (!title || !currency || !issue_date || !due_date) {
             return res.status(400).json({
-                error: "Missing some required fields",
+                message: "Missing some required fields",
             });
         }
 
         if (!["MAD", "€", "$"].includes(currency)) {
             return res.status(422).json({
-                error: "Not supported currency"
+                message: "Not supported currency"
             })
         }
 
@@ -26,13 +26,13 @@ export const addInvoice = async (req, res) => {
 
             if (selectedDate.getDate() < now.getDate()) {
                 return res.status(422).json({
-                    error: "Invoice issue date must be in the future"
+                    message: "Invoice issue date must be in the future"
                 });
             }
         }
         else {
             return res.status(400).json({
-                error: "Invoice issue date is required"
+                message: "Invoice issue date is required"
             });
         }
 
@@ -44,20 +44,20 @@ export const addInvoice = async (req, res) => {
 
             if (selectedDate.getDate() < now.getDate()) {
                 return res.status(422).json({
-                    error: "Invoice due date must be in the future"
+                    message: "Invoice due date must be in the future"
                 });
             }
 
             if (selectedDate.getDate() < startDate.getDate()) {
                 return res.status(422).json({
-                    error: "Invoice due date cannot be before issue date"
+                    message: "Invoice due date cannot be before issue date"
                 });;
             }
 
         }
         else {
             return res.status(400).json({
-                error: "Freelance Project due date is required"
+                message: "Freelance Project due date is required"
             });
         }
 
@@ -65,7 +65,7 @@ export const addInvoice = async (req, res) => {
         // items validation
         if (items.length === 0 || !Array.isArray(items)) {
             return res.status(422).json({
-                error: "You must add at least one item to invoice"
+                message: "You must add at least one item to invoice"
             });
         }
 
@@ -112,33 +112,21 @@ export const addInvoice = async (req, res) => {
 
 
 
-        const invoice = await Invoice.create({
-            title,
-            currency , 
-            issue_date, 
-            due_date, 
-            items ,
-            total ,
-            ...(project && { project }),
-        })
+        const invoice = await invoiceService.create({ title, project, currency, issue_date, due_date, items , total})
 
 
         if (project) {
-            await FreelanceProject.findByIdAndUpdate(project, {
-                $addToSet: { invoices : invoice._id }
-            });
+            await freelanceService.addInvoice(project , invoice._id)
         }
 
 
         return res.json({ invoice: invoiceFormater(invoice) });
 
-
-
     }
 
     catch (err) {
         console.log(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 
 }
@@ -146,15 +134,15 @@ export const addInvoice = async (req, res) => {
 
 export const getInvoices = async (req, res) => {
     try {
-        const invoices = await Invoice.find().sort({ createdAt: -1 });
+        const invoices = await invoiceService.getAll()
 
         const formatedInvoices = invoices.map((i) => invoiceFormater(i));
-        console.log(formatedInvoices)
+
         return res.json({
             invoices: formatedInvoices,
         });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }

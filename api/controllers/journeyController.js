@@ -1,70 +1,56 @@
 import { journeyFormater } from "../lib/formaters.js";
-import Journey from "../models/Journey.js";
+import journeyService from "../services/journeyService.js";
 
 export const getJourney = async (req, res) => {
   try {
-    const journeys = await Journey.find().sort({ createdAt: -1 });
+    const journeys = await journeyService.getAll();
 
     const formatedJoutrneys = journeys.map((p) => journeyFormater(p));
-    console.log(formatedJoutrneys)
+
     return res.json({
       journeys: formatedJoutrneys,
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
 export const addJourney = async (req, res) => {
   try {
-    const {
-      title,
-      org,
-      start_date,
-      end_date,
-      type,
-      location,
-      description,
-      org_link,
-    } = req.body;
+    const { title, org, start_date, end_date, type, location, description, org_link } = req.body;
 
     if (!title || !start_date || !end_date || !type)
       return res.status(400).json({
-        error: "Missing some required fields",
+        message: "Missing some required fields",
       });
 
-    const journey = await Journey.create({
-      title,
-      start_date,
-      end_date,
-      type,
-      ...(location && { location }),
-      ...(description && { description }),
-      ...(org && { org }),
-      ...(org_link && { org_link }),
-    });
+    const journey = await journeyService.create({ title, org, start_date, end_date, type, location, description, org_link })
 
     return res.json({ journey: journeyFormater(journey) });
+
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
 export const deleteJourney = async (req, res) => {
   try {
     const { id } = req.params;
-    const journey = await Journey.findById(id);
+    const journey = await journeyService.getById(id)
+
+
     if (!journey) {
-      return res.status(404).json({ error: "Journey not found" });
+      return res.status(404).json({ message: "Journey not found" });
     }
 
-    await Journey.findByIdAndDelete(id);
+    await journeyService.deleteById(id);
+
     return res.json({ message: "Journey deleted successfully" });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -72,39 +58,19 @@ export const editJourney = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const {
-      title,
-      org,
-      start_date,
-      end_date,
-      type,
-      location,
-      description,
-      org_link,
-    } = req.body;
+    const { title, org, start_date, end_date, type, location, description, org_link } = req.body;
 
-    const journey = await Journey.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          ...(title && { title }),
-          ...(description && { description }),
-          ...(org && { org }),
-          ...(start_date && { start_date }),
-          ...(end_date && { end_date }),
-          ...(type && { type }),
-          ...(location && { location }),
-          ...(org_link && { org_link }),
-        },
-      },
-      { new: true },
-    );
+    if (!title || !start_date || !end_date || !type)
+      return res.status(400).json({
+        message: "Missing some required fields",
+      });
 
-    console.log(journeyFormater(journey));
+    const journey = await journeyService.updateById(id , { title, org, start_date, end_date, type, location, description, org_link })
+
 
     return res.json({ journey: journeyFormater(journey) });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };

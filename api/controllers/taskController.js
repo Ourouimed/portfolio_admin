@@ -1,6 +1,7 @@
 import { taskFormater } from "../lib/formaters.js";
 import FreelanceProject from "../models/FreelanceProject.js";
-import Task from "../models/Task.js";
+import freelanceService from "../services/freelanceService.js";
+import taskService from "../services/taskService.js";
 
 export const addTask = async (req, res) => {
   try {
@@ -8,7 +9,7 @@ export const addTask = async (req, res) => {
 
     if (!title || !content || !date || !status || !priority)
       return res.status(400).json({
-        error: "Missing some required fields",
+        message: "Missing some required fields",
       });
 
     if (date) {
@@ -17,51 +18,42 @@ export const addTask = async (req, res) => {
 
       if (selectedDate <= now) {
         return res.status(400).json({
-          error: "Task date and time must be in the future",
+          message: "Task date and time must be in the future",
         });
       }
     } else {
       return res.status(400).json({
-        error: "Task date and time is required",
+        message: "Task date and time is required",
       });
     }
 
-    const task = await Task.create({
-      title,
-      content,
-      date,
-      status,
-      priority,
-      ...(project && { project }),
-    });
+    const task = await taskService.create({ title, content, date, status, priority, project });
+
 
     if (project) {
-      await FreelanceProject.findByIdAndUpdate(project, {
-        $addToSet: { tasks: task._id }
-      });
+      await freelanceService.addTask(project, task._id)
     }
-
 
 
     return res.json({ task: taskFormater(task) });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find().sort({ createdAt: -1 });
+    const tasks = await taskService.getAll();
 
     const formatedTasks = tasks.map((t) => taskFormater(t));
-    console.log(formatedTasks);
+
     return res.json({
       tasks: formatedTasks,
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -69,11 +61,11 @@ export const changeTaskStatus = async (req, res) => {
   try {
     const { id } = req.params
 
-    const task = await Task.findById(id);
+    const task = await taskService.getById(id)
 
     if (!task) {
       return res.status(404).json({
-        error: "Task not found"
+        message: "Task not found"
       })
     }
 
@@ -82,17 +74,14 @@ export const changeTaskStatus = async (req, res) => {
       task.status === "Doing" ? "Done" :
         "Todo"
 
-    const newTask = await Task.findByIdAndUpdate(id, {
-      $set: {
-        status: newStatus
-      }
-    }, { new: true })
+
+    const newTask = await taskService.updateById(id, { status: newStatus })
 
 
     return res.json({ task: taskFormater(newTask) });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -101,18 +90,18 @@ export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params
 
-    const task = await Task.findById(id);
+    const task = await taskService.getById()
     if (!task) {
-      return res.status(404).json({ error: "Task not found" })
+      return res.status(404).json({ message: "Task not found" })
     }
 
 
-    await Task.findByIdAndDelete(id);
+    await taskService.deleteById(id)
     return res.json({ message: "Task deleted successfully" })
   }
   catch (err) {
     console.log(err)
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ message: 'Internal server error' });
   }
 }
 
@@ -125,30 +114,15 @@ export const editTask = async (req, res) => {
 
     const { title, content, date, status, priority, project } = req.body;
 
-    const task = await Task.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          ...(title && { title }),
-          ...(content && { content }),
-          ...(date && { date }),
-          ...(status && { status }),
-          ...(priority && { priority }),
-          ...(project && { project }),
-        },
-      },
-      { new: true },
-    );
+    const task = await taskService.updateById(id , { title, content, date, status, priority, project })
 
     if (project) {
-      await FreelanceProject.findByIdAndUpdate(project, {
-        $addToSet: { tasks: task._id }
-      });
+      await freelanceService.addTask(project , task._id)
     }
 
     return res.json({ task: taskFormater(task) });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };

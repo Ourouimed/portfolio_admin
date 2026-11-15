@@ -1,6 +1,6 @@
 import { projectFormater } from "../lib/formaters.js"
 import { deleteFileByUrl, uploadFile } from "../lib/cloudinary-manage.js"
-import Project from "../models/Project.js"
+import projectService from "../services/projectService.js"
 
 export const addProject = async (req , res)=>{
     try {
@@ -8,18 +8,16 @@ export const addProject = async (req , res)=>{
         const projImg = req.file 
 
         if (!name || !description || tech.length === 0) return res.status(400).json({
-            error : "Missing some required fields"
+            message : "Missing some required fields"
         })
 
         if (!projImg) return res.status(400).json({
-            error : "Project image is required"
+            message : "Project image is required"
         })
         
         let img_url = await uploadFile(projImg , "portfolio/projects")
 
-        const project = await Project.create({
-            name , description , tech , image : img_url , ...(source && { source }) , ...(preview && { preview })
-        })
+        const project = await projectService.create({ name , description , tech , image : img_url , source , preview})
 
 
         
@@ -27,24 +25,24 @@ export const addProject = async (req , res)=>{
     }
     catch (err) {
         console.log(err)
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }
 
 
 export const getAllProjects = async (req , res)=>{
     try {
-        const projects = await Project.find().sort({ createdAt : -1});
+        const projects = await projectService.getAll()
 
         const formatedProjects = projects.map(p => projectFormater(p))
-        console.log(formatedProjects)
+
         return res.json({
             projects : formatedProjects
         })
     }
     catch (err) {
         console.log(err)
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ message : 'Internal server error' });
     }
 }
 
@@ -54,21 +52,21 @@ export const deleteProject = async (req , res)=>{
     try {
         const { id } = req.params 
 
-        const project = await Project.findById(id);
+        const project = await projectService.getById(id)
         if(!project){
-            return res.status(404).json({error : "Project not found"})
+            return res.status(404).json({message : "Project not found"})
         }
-        console.log(project?.image)
+
         if (project?.image){
             await deleteFileByUrl(project.image)
             
         }
-        await Project.findByIdAndDelete(id);
+        await projectService.deleteById(id)
         return res.json({message : "Project deleted successfully"})
     }
     catch (err) {
         console.log(err)
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ message : 'Internal server error' });
     }
 }
 
@@ -89,24 +87,14 @@ export const editProject = async (req , res)=>{
         
         
 
-        const project = await Project.findByIdAndUpdate(id , {
-            $set : {
-                ...(name && { name }) ,
-                ...(description && { description }),
-                source,
-                preview,
-                ...(tech.length > 0 && { tech }) ,
-                ...(projImg && { image : img_url })
-            }
-        } , { new : true})
-
-        
+        const project = await projectService.updateById(id , { name , description , tech , image : img_url , source , preview})
+         
         return res.json({project : projectFormater(project) })
 
 
     }
     catch (err) {
         console.log(err)
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }

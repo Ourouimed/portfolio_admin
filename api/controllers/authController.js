@@ -1,28 +1,20 @@
-import { config } from "dotenv";
-import User from "../models/User.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken"
 import { userFormater } from "../lib/formaters.js";
-// config dotenv
-config()
-
-const JWT_SECRET = process.env.JWT_SECRET
+import authService from "../services/authService.js";
+import { comparePassword } from "../services/bcrypt.js";
+import { generateToken } from "../services/jwt.js";
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        if (!email || !password) return res.status(422).json({ error: "All fields are required" });
+        if (!email || !password) return res.status(422).json({ message : "All fields are required" });
 
-        const user = await User.findOne({ email : email.toLowerCase() });
-        if (!user) return res.status(404).json({ error: "Invalid credentials" });
+        const user = await authService.getUserByEmail(email)
+        if (!user) return res.status(404).json({ message : "Invalid credentials" });
 
+        const isMatch = await comparePassword(password , user.password)
+        if (!isMatch) return res.status(401).json({ message : "Invalid credentials" });
 
-        
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
-
-        const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
+        const token = generateToken({ id: user._id, email: user.email })
 
         return res.cookie("token", token, {
             httpOnly: true,
@@ -36,22 +28,23 @@ export const login = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
 
 
 export const verifySession = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id);
-        if (!user) return res.status(401).json({ error: 'Session expired. Please login again.' });
+        const user = await authService.getUserById(req.user.id)
+
+        if (!user) return res.status(401).json({ message : 'Session expired. Please login again.' });
         return res.json({
             message: "Session valid",
             user :  userFormater(user)
         });
     } catch (err) {
         console.log(err)
-        return res.status(401).json({ error: 'Session invalid' });
+        return res.status(401).json({ message : 'Session invalid' });
     }
 };
 
