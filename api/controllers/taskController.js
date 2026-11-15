@@ -7,28 +7,7 @@ export const addTask = async (req, res) => {
   try {
     const { title, content, date, status, priority, project } = req.body;
 
-    if (!title || !content || !date || !status || !priority)
-      return res.status(400).json({
-        message: "Missing some required fields",
-      });
-
-    if (date) {
-      const selectedDate = new Date(date);
-      const now = new Date();
-
-      if (selectedDate <= now) {
-        return res.status(400).json({
-          message: "Task date and time must be in the future",
-        });
-      }
-    } else {
-      return res.status(400).json({
-        message: "Task date and time is required",
-      });
-    }
-
     const task = await taskService.create({ title, content, date, status, priority, project });
-
 
     if (project) {
       await freelanceService.addTask(project, task._id)
@@ -69,7 +48,6 @@ export const changeTaskStatus = async (req, res) => {
       })
     }
 
-
     const newStatus = task.status === "Todo" ? "Doing" :
       task.status === "Doing" ? "Done" :
         "Todo"
@@ -89,6 +67,10 @@ export const changeTaskStatus = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params
+    if (!id) return res.status(400).json({
+      message: "Task Id is required"
+    })
+
 
     const task = await taskService.getById()
     if (!task) {
@@ -107,17 +89,19 @@ export const deleteTask = async (req, res) => {
 
 
 
-export const editTask = async (req, res) => {
+export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-
-
     const { title, content, date, status, priority, project } = req.body;
 
-    const task = await taskService.updateById(id , { title, content, date, status, priority, project })
+    if (!id) return res.status(400).json({
+      message: "Task id is required",
+    });
+
+    const task = await taskService.updateById(id, { title, content, date, status, priority, project })
 
     if (project) {
-      await freelanceService.addTask(project , task._id)
+      await freelanceService.addTask(project, task._id)
     }
 
     return res.json({ task: taskFormater(task) });

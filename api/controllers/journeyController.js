@@ -20,11 +20,6 @@ export const addJourney = async (req, res) => {
   try {
     const { title, org, start_date, end_date, type, location, description, org_link } = req.body;
 
-    if (!title || !start_date || !end_date || !type)
-      return res.status(400).json({
-        message: "Missing some required fields",
-      });
-
     const journey = await journeyService.create({ title, org, start_date, end_date, type, location, description, org_link })
 
     return res.json({ journey: journeyFormater(journey) });
@@ -54,16 +49,16 @@ export const deleteJourney = async (req, res) => {
   }
 };
 
-export const editJourney = async (req, res) => {
+export const updateJourney = async (req, res) => {
   try {
     const { id } = req.params;
 
     const { title, org, start_date, end_date, type, location, description, org_link } = req.body;
 
-    if (!title || !start_date || !end_date || !type)
-      return res.status(400).json({
-        message: "Missing some required fields",
-      });
+    if (!id) return res.status(400).json({
+        message: "Journey Id is required"
+    })
+
 
     const journey = await journeyService.updateById(id , { title, org, start_date, end_date, type, location, description, org_link })
 

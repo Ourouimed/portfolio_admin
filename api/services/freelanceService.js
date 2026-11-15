@@ -1,7 +1,7 @@
 import FreelanceProject from "../models/FreelanceProject.js"
 
 const create = async (data) => {
-    return FreelanceProject.create({
+    return await FreelanceProject.create({
         ...data,
         client: {
             name: data.client.name,
@@ -12,15 +12,15 @@ const create = async (data) => {
 }
 
 
-const getAll = async () => FreelanceProject.find().sort({ createdAt: -1 }).populate("tasks").lean();
+const getAll = async () => await FreelanceProject.find().sort({ createdAt: -1 }).populate("tasks").lean();
 
-const getById = async (id) => FreelanceProject.findById(id).populate("tasks").lean();
+const getById = async (id) => await FreelanceProject.findById(id).populate("tasks");
 
-const deleteById = async (id) => FreelanceProject.findByIdAndDelete(id);
+const deleteById = async (id) => await FreelanceProject.findByIdAndDelete(id);
 
 
 const updateById = async (id, data) => {
-    return FreelanceProject.findByIdAndUpdate(
+    return await FreelanceProject.findByIdAndUpdate(
         id,
         {
             $set: {
@@ -37,12 +37,12 @@ const updateById = async (id, data) => {
 }
 
 
-const addInvoice = async (id, invoice_id) => FreelanceProject.findByIdAndUpdate(id, {
+const addInvoice = async (id, invoice_id) => await FreelanceProject.findByIdAndUpdate(id, {
     $addToSet: { invoices:  invoice_id}
 });
 
 
-const addTask = async (id, task_id) => FreelanceProject.findByIdAndUpdate(id, {
+const addTask = async (id, task_id) => await FreelanceProject.findByIdAndUpdate(id, {
     $addToSet: { tasks:  task_id}
 });
 
