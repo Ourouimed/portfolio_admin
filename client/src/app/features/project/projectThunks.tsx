@@ -7,7 +7,7 @@ export const addProject = createAsyncThunk('project/add' , async (data : FormDat
   }
   catch (err: any){
     console.log(err?.response?.data)
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -18,7 +18,7 @@ export const editProject = createAsyncThunk('project/edit' , async (data : { dat
   }
   catch (err: any){
     console.log(err?.response?.data)
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
@@ -29,7 +29,7 @@ export const getAllProjects = createAsyncThunk('project/get' , async (_, thunkAP
   }
   catch (err: any){
     console.log(err?.response?.data)
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 

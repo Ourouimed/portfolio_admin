@@ -8,7 +8,7 @@ export const addFreelanceProject = createAsyncThunk('freelancing/add' , async (d
   }
   catch (err: any){
     console.log(err)
-    return thunkAPI.rejectWithValue(err.response?.data?.error || "Unknown Error");
+    return thunkAPI.rejectWithValue(err.response?.data?.message || "Unknown Error");
   }
 })
 
